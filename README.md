@@ -57,7 +57,7 @@ djtgcfg prog -d CmodA7 -i 0 -f uart_flash_writer.bit
   
 6) The python script reads the program in the flash after writing it. You can check if they are the same. 
 
-## Step 2: Caravel implementation on FPGA
+### Step 2: Caravel implementation on FPGA
 Now, that the flash is programmed with the program we want to run on Caravel, we can run this program on Caravel implemented on FPGA. You can find the source and constraints files for the management SoC alone [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/mgmt_soc) and the source files for the whole Caravel could be found [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel) 
 
 In order to test the debug interface in Caravel, you need to understand how it works. The debugging needs to be enabled first and this should be done using the C code by writing one to the CSR_DEBUG_MODE_OUT_ADDR register. Before that, you need to set the debug output enable bar to 1 to make the direction of the gpio 0 to be input. The default configuartion for gpio 0 is also changed in the RTL to be input instead of bidirectional. For the debug to be enabled through the uart pins (gpio 5 and 6), gpio 0 must be set to 1. This could be done using logic analyzer by generating signal high to one of the IOs and connect it to the relative FPGA pin. Then the UART-USB bridge in the FPGA connected to uart gpios 5 and 6 can be used for the PC to send command to the UART. You can find a test bench for the debug verification [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel/sim/debug). This test bench runs the program which toggles the mgmt gpio while enabling the debug interface. Then uses the debug uart in order to write a word in the SRAM then read it again. In order to test the debug interface in hardware, there is a python script to write and read a word through the debug you can find it [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/debug_uart_script.py). 
@@ -103,7 +103,7 @@ You can check the data read on Digilent Waveforms by choosing "Logic", "Add", "U
 
 This means that the debug interface is functional and the connections are correct. You can now use Litex server, OpenOCD, and GDB to actually debug a program running on Caravel's management SoC  
 
-## Step 3: Using GDB to debug program running on Caravel 
+### Step 3: Using GDB to debug program running on Caravel 
 In order to debug a program running on a chip using GDB, a specific version of [OpenOCD](https://github.com/SpinalHDL/openocd_riscv) from SpinalHDL is used. OpenOCD which stands for Open On Chip Debugger translates GDB high level commands to commands which can be understood by different interfaces and CPUs. Litex server is used in order to let an Litex SoC communicate with OpenOCD through a UART bridge. You can read more about this setup in this [repo](https://github.com/enjoy-digital/litex/wiki/Use-GDB-with-VexRiscv-CPU)
 
 Since Caravel's managemnt SoC is generated using Litex, we will use the Litex server and OpanOCD to debug the code running on Caravel.
@@ -194,8 +194,9 @@ Info : Listening on port 6666 for tcl connections
 Info : Listening on port 4444 for telnet connections
 ```
 You will also notice that the LED stopped toggling which means the program running on the CPU was halted 
-7) Generate the elf file of the C program.
-8) In a third terminal, run GDB using this command: (replace the .elf file with the location of your elf file)
+7) Generate the elf file of the C program. You can do this using the [caravel management soc repo](https://github.com/efabless/caravel_mgmt_soc_litex). You can run ``make <test_name.elf>`` inside any test in the directory ``caravel_mgmt_soc_litex/verilog/dv/tests-caravel/<test-name>``
+Before this, make sure to remove the ``--strip-debug`` flag used in the compilation of the c program. You can find it in ``caravel_mgmt_soc_litex/verilog/dv/make/sim.makefile`` in line 43. You can also use the ready elf file you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/elf_file/gpio_mgmt.elf)
+8) In a third terminal, run GDB using this command: (replace the .elf file with the location of your generated elf file)
 ```
 /opt/riscv64-unknown-elf-toolchain-10.2.0-2020.12.8-x86_64-linux-ubuntu14/bin/riscv64-unknown-elf-gdb /home/nouran/new_mgmt_soc/caravel_mgmt_soc_litex/verilog/dv/tests-caravel/gpio_mgmt/gpio_mgmt.elf -ex 'target extended-remote localhost:3333'
 ```
