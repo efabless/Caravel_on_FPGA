@@ -94,12 +94,13 @@ djtgcfg prog -d CmodA7 -i 0 -f caravel.bit
 ```
 After programming the FPGA with the caravel chip, you should be able to see one of the LEDs toggling. 
 
-6) Run the debug uart python script, you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/debug_uart_script.py). You can also see the bytes sent and recieved through the logic analyzer and [Digilent WaveForms](https://digilent.com/shop/software/digilent-waveforms/) by connecting FPGA pins 14 and 17 to two logic analyzer IOs. Those two pins are connected to gpios 5 and 6 in the RTL to make sure that they are passed correctly.
-You can check the data read on Digilent Waveforms by choosing "Logic", "Add", "UART", "DIOX" and choose the format to be hexadecimal and choose the trigger to be "edge" and do this to both DIOs connected to FPGA pins 14 and 17. 
- 
-   
-7) If you can see the word read correctly as below on the waveform and outputed in the python script.
-*screenshot* 
+6) You can also see the bytes sent and recieved through the logic analyzer and [Digilent WaveForms](https://digilent.com/shop/software/digilent-waveforms/) by connecting FPGA pins 14 and 17 to two logic analyzer IOs. Those two pins are connected to gpios 5 and 6 in the RTL to make sure that they are passed correctly.
+You can check the data read on Digilent Waveforms by choosing "Logic", "Add", "UART", "DIOX" and choose the format to be hexadecimal and choose the trigger to be "edge" and do this to both DIOs connected to FPGA pins 14 and 17. Change the mode to recorded instead of repeated and change the rate to be 1 MHz and then press Record as follows:
+![image](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/assets/79912650/18bf6dc4-b1d2-421d-a3dc-3453bb512e8c)
+
+7) Now you should run the debug uart python script, you can find [here (https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/debug_uart_script.py).If you can see the word read correctly as below on the waveform and outputed in the python script.
+![image](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/assets/79912650/9215dc91-8990-42c6-b5f4-24409b634f51)
+
 This means that the debug interface is functional and the connections are correct. You can now use Litex server, OpenOCD, and GDB to actually debug a program running on Caravel's management SoC  
 
 ## Step 3: Using GDB to debug program running on Caravel 
