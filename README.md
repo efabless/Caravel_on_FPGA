@@ -16,7 +16,7 @@ export PDK= sky130A
 ```
 you will find the hex file generated in the same directory of the test. For this tutorial, you can modify the ``gpio_mgmt`` test to have [this](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel/C_program) C program  which toggles the mgmt gpio pin and enables the debug interface. 
 
-2) Use Vivado to add the source files you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/flash_programming/src), along with the constraints file you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/flash_programming/constr) then click on "generate bitstream" you can find under "PROGRAM AND DEBUG" in the side bar. You can also use the ready bitstream you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/flash_programming/bit_file)
+2) Use Vivado to add the source files you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/flash_programming/src), along with the constraint file you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/flash_programming/constr) then click on "generate bitstream" you can find under "PROGRAM AND DEBUG" in the side bar. You can also use the ready bitstream you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/flash_programming/bit_file)
   
 3) To program the FPGA with the bit file. You can either do it through Vivado by clicking on "program device" under "Open Hardware Target Manager" or you can use [Digilent Adept](https://digilent.com/shop/software/digilent-adept/) to program the FPGA and use this command:
 ```
@@ -39,8 +39,41 @@ djtgcfg prog -d CmodA7 -i 0 -f uart_flash_writer.bit
 6) The python script reads the program in the flash after writing it. You can check if they are the same. 
 
 ## Step 2: Caravel implementation on FPGA
-Now, that the flash is programmed with the program we want to run on Caravel, we can run this program on Caravel implemented on FPGA. You can find the source and constraints files for the management SoC alone [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/mgmt_soc) and the files for the whole Caravel could be found [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel) 
+Now, that the flash is programmed with the program we want to run on Caravel, we can run this program on Caravel implemented on FPGA. You can find the source and constraints files for the management SoC alone [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/mgmt_soc) and the source files for the whole Caravel could be found [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel) 
 
+In order to test the debug interface in Caravel, you need to understand how it works. The debugging needs to be enabled first and this should be done using the C code by writing one to the CSR_DEBUG_MODE_OUT_ADDR register. Before that, you need to set the debug output enable bar to 1 to make the direction of the gpio 0 to be input. The default configuartion for gpio 0 is also changed in the RTL to be input instead of bidirectional. For the debug to be enabled through the uart pins (gpio 5 and 6), gpio 0 must be set to 1. This could be done using logic analyzer by generating signal high to one of the IOs and connect it to the relative FPGA pin. Then the UART-USB bridge in the FPGA connected to uart gpios 5 and 6 can be used for the PC to send command to the UART. You can find a test bench for the debug verification [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel/sim/debug). This test bench runs the program which toggles the mgmt gpio while enabling the debug interface. Then uses the debug uart in order to write a word in the SRAM then read it again. In order to test the debug interface in hardware, there is a python script to write and read a word through the debug you can find it [here](). 
 
+Notice: The FPGA clock is 12 MHz so we need to adjust the baudrate and bit time of the uart accordingly. This is the equation used to calculate the bit time in nano seconds, given the clock period in nanoseconds 
+```
+bit time (ns) = (100000 * clock period (ns) )/ 1152 
+```
+So in case of 12 MHz clock which is a period of 83.333 ns, the bit time will be 7234 and the baudrate will be 138236  
+
+#### Steps to test debug on caravel 
+1) Program the flash module with the debug_gpio.hex file you can find [here]() as shown in the step 1
+2) Use Vivado to add the source files you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel/src), along with the constraint file you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel/constr) then click on "generate bitstream" you can find under "PROGRAM AND DEBUG" in the side bar. You can also use the ready bitstream you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel/bit_file)
+  
+3) To program the FPGA with the bit file. You can either do it through Vivado by clicking on "program device" under "Open Hardware Target Manager" or you can use [Digilent Adept](https://digilent.com/shop/software/digilent-adept/) to program the FPGA and use this command:
+```
+djtgcfg prog -d CmodA7 -i 0 -f caravel.bit
+```
+4) For the hardware connections:
+   * FPGA pin 1 will be connected to CS pin in flash module
+   * FPGA pin 6 will be connected to CLK pin in flash module
+   * FPGA pin 7 will be connected to IO0 pin in flash module
+   * FPGA pin 9 will be connected to IO1 pin in flash module
+   * FPGA PMOD VCC will be connected to 3v3 pin in flash module
+   * FPGA PMOD GND will be connected to GND pin in flash module
+   * FPGA pin  10 (mprj_io[0]) connected to a logig analyzer IO with generated pattern with logic high
+   * FPGA pin 14 (mprj_io[5]) connected to a logig analyzer IO
+   * FPGA pin 17 (mprj_io[5]) connected to a logig analyzer IO 
+
+Notice that the uart ports ( gpio pin 5 and gpio pin 6 ) are connected to the UART-USB bridge of the Cmod FPGA. This means that the micro USB cable connected to the PC used to program the FPGA will be also used to talk to the debug UART. 
+
+5) Run the debug uart python script, you can find [here](). You can also see the bytes sent and recieved through the logic analyzer and [Digilent WaveForms](https://digilent.com/shop/software/digilent-waveforms/) by connecting FPGA pins 14 and 17 to two logic analyzer IOs. Those two pins are connected to gpios 5 and 6 in the RTL to make sure that they are passed correctly. 
+   
+6) If you can see the word read correctly as below on the waveform and outputed in the python script.
+*screenshot* 
+This means that the debug interface is functional and the connections are correct. You can now use Litex server, OpenOCD, and GDB to actually debug a program running on Caravel's management SoC  
 
 ## Step 3: Using GDB to debug program running on Caravel 
