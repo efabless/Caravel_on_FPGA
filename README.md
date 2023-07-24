@@ -15,7 +15,9 @@ export PDK_ROOT=<path_to_PDK>
 export PDK= sky130A
 ```
 you will find the hex file generated in the same directory of the test.
+
 2) Use Vivado to add the source files you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/flash_programming/src), along with the constraints file you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/flash_programming/constr) then click on "generate bitstream" you can find under "PROGRAM AND DEBUG" in the side bar. You can also use the ready bitstream you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/flash_programming/bit_file)
+  
 3) To program the FPGA with the bit file. You can either do it through Vivado by clicking on "program device" under "Open Hardware Target Manager" or you can use [Digilent Adept](https://digilent.com/shop/software/digilent-adept/) to program the FPGA and use this command:
 ```
 djtgcfg prog -d CmodA7 -i 0 -f uart_flash_writer.bit
@@ -29,9 +31,12 @@ djtgcfg prog -d CmodA7 -i 0 -f uart_flash_writer.bit
    * FPGA pin 11 will be connected to IO3 pin in flash module
    * FPGA PMOD VCC will be connected to 3v3 pin in flash module
    * FPGA PMOD GND will be connected to GND pin in flash module
-Notice that the uart ports (TX and RX ) are connected to the UART-USB bridge of the Cmod FPGA. This means that the micro USB cable connected to the PC used to program the FPGA will be also used to talk to the UART master.   
-6) Now the uart master flash writer design is implemnted on the FPGA and the hardware connections are ready, all you need is to run the python script you can find [here]() which talks to the uart master of the design. Make sure to change the name of the hex file you want to program the flash with and change the port name.  
-7)  The python script reads the program in the flash after writing it. You can check if they are the same. 
+
+    Notice that the uart ports (TX and RX ) are connected to the UART-USB bridge of the Cmod FPGA. This means that the micro USB cable connected to the PC used to      program the FPGA will be also used to talk to the UART master.   
+
+5) Now the uart master flash writer design is implemnted on the FPGA and the hardware connections are ready, all you need is to run the python script you can find [here]() which talks to the uart master of the design. Make sure to change in the python script the name of the hex file you want to program the flash with and change the port name.
+  
+6) The python script reads the program in the flash after writing it. You can check if they are the same. 
 
 ## Step 2: Caravel implementation on FPGA
 ## Step 3: Hardware connections 
