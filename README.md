@@ -53,14 +53,14 @@ djtgcfg prog -d CmodA7 -i 0 -f uart_flash_writer.bit
 
     Notice that the uart ports (TX and RX ) are connected to the UART-USB bridge of the Cmod FPGA. This means that the micro USB cable connected to the PC used to      program the FPGA will be also used to talk to the UART master.   
 
-5) Now the uart master flash writer design is implemnted on the FPGA and the hardware connections are ready, all you need is to run the python script you can find [here]() which talks to the uart master of the design. Make sure to change in the python script the name of the hex file you want to program the flash with and change the port name. For the tutorial, you can use [this]() ready hex file which is the compilation of [this](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel/C_program) C program. 
+5) Now the uart master flash writer design is implemnted on the FPGA and the hardware connections are ready, all you need is to run the python script you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/flash_programming) which talks to the uart master of the design. Make sure to change in the python script the name of the hex file you want to program the flash with and change the port name. For the tutorial, you can use [this](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/hex_file/debug_gpio.hex) ready hex file which is the compilation of [this](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel/C_program) C program. 
   
 6) The python script reads the program in the flash after writing it. You can check if they are the same. 
 
 ## Step 2: Caravel implementation on FPGA
 Now, that the flash is programmed with the program we want to run on Caravel, we can run this program on Caravel implemented on FPGA. You can find the source and constraints files for the management SoC alone [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/mgmt_soc) and the source files for the whole Caravel could be found [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel) 
 
-In order to test the debug interface in Caravel, you need to understand how it works. The debugging needs to be enabled first and this should be done using the C code by writing one to the CSR_DEBUG_MODE_OUT_ADDR register. Before that, you need to set the debug output enable bar to 1 to make the direction of the gpio 0 to be input. The default configuartion for gpio 0 is also changed in the RTL to be input instead of bidirectional. For the debug to be enabled through the uart pins (gpio 5 and 6), gpio 0 must be set to 1. This could be done using logic analyzer by generating signal high to one of the IOs and connect it to the relative FPGA pin. Then the UART-USB bridge in the FPGA connected to uart gpios 5 and 6 can be used for the PC to send command to the UART. You can find a test bench for the debug verification [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel/sim/debug). This test bench runs the program which toggles the mgmt gpio while enabling the debug interface. Then uses the debug uart in order to write a word in the SRAM then read it again. In order to test the debug interface in hardware, there is a python script to write and read a word through the debug you can find it [here](). 
+In order to test the debug interface in Caravel, you need to understand how it works. The debugging needs to be enabled first and this should be done using the C code by writing one to the CSR_DEBUG_MODE_OUT_ADDR register. Before that, you need to set the debug output enable bar to 1 to make the direction of the gpio 0 to be input. The default configuartion for gpio 0 is also changed in the RTL to be input instead of bidirectional. For the debug to be enabled through the uart pins (gpio 5 and 6), gpio 0 must be set to 1. This could be done using logic analyzer by generating signal high to one of the IOs and connect it to the relative FPGA pin. Then the UART-USB bridge in the FPGA connected to uart gpios 5 and 6 can be used for the PC to send command to the UART. You can find a test bench for the debug verification [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel/sim/debug). This test bench runs the program which toggles the mgmt gpio while enabling the debug interface. Then uses the debug uart in order to write a word in the SRAM then read it again. In order to test the debug interface in hardware, there is a python script to write and read a word through the debug you can find it [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/debug_uart_script.py). 
 
 Notice: The FPGA clock is 12 MHz so we need to adjust the baudrate and bit time of the uart accordingly. This is the equation used to calculate the bit time in nano seconds, given the clock period in nanoseconds 
 ```
@@ -69,7 +69,7 @@ bit time (ns) = (100000 * clock period (ns) )/ 1152
 So in case of 12 MHz clock which is a period of 83.333 ns, the bit time will be 7234 and the baudrate will be 138236  
 
 #### Steps to test debug on caravel 
-1) Program the flash module with the debug_gpio.hex file you can find [here]() as shown in the step 1
+1) Program the flash module with the debug_gpio.hex file you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/hex_file/debug_gpio.hex) as shown in the step 1
 2) Use Vivado to add the source files you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel/src), along with the constraint file you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel/constr) then click on "generate bitstream" you can find under "PROGRAM AND DEBUG" in the side bar. You can also use the ready bitstream you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel/bit_file)
   
 3) For the hardware connections:
@@ -83,24 +83,30 @@ So in case of 12 MHz clock which is a period of 83.333 ns, the bit time will be 
    * FPGA pin 14 (mprj_io[5]) connected to a logig analyzer IO
    * FPGA pin 17 (mprj_io[5]) connected to a logig analyzer IO 
 
-Notice that the uart ports ( gpio pin 5 and gpio pin 6 ) are connected to the UART-USB bridge of the Cmod FPGA. This means that the micro USB cable connected to the PC used to program the FPGA will be also used to talk to the debug UART. 
+  Notice that the uart ports ( gpio pin 5 and gpio pin 6 ) are connected to the UART-USB bridge of the Cmod FPGA. This means that the micro    USB cable connected to the PC used to program the FPGA will be also used to talk to the debug UART. 
 
-4) To program the FPGA with the bit file. You can either do it through Vivado by clicking on "program device" under "Open Hardware Target Manager" or you can use [Digilent Adept](https://digilent.com/shop/software/digilent-adept/) to program the FPGA and use this command:
+4) Generate a constant pattern of 1 using [Digilent WaveForms](https://digilent.com/shop/software/digilent-waveforms/) on FPGA pin 10 (gpio 0). You can do this by clicking on "patterns" , "Add", "Signal", "DIOX" (choose the DIO connected to FPGA pin 10), choose type "constant", and parameter "1" as follows:
+![image](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/assets/79912650/8b998d4b-dd90-478d-bc4c-cc824a4bebdc)
+
+5) To program the FPGA with the bit file. You can either do it through Vivado by clicking on "program device" under "Open Hardware Target Manager" or you can use [Digilent Adept](https://digilent.com/shop/software/digilent-adept/) to program the FPGA and use this command:
 ```
 djtgcfg prog -d CmodA7 -i 0 -f caravel.bit
 ```
 After programming the FPGA with the caravel chip, you should be able to see one of the LEDs toggling. 
 
-5) Run the debug uart python script, you can find [here](). You can also see the bytes sent and recieved through the logic analyzer and [Digilent WaveForms](https://digilent.com/shop/software/digilent-waveforms/) by connecting FPGA pins 14 and 17 to two logic analyzer IOs. Those two pins are connected to gpios 5 and 6 in the RTL to make sure that they are passed correctly. 
+6) Run the debug uart python script, you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/debug_uart_script.py). You can also see the bytes sent and recieved through the logic analyzer and [Digilent WaveForms](https://digilent.com/shop/software/digilent-waveforms/) by connecting FPGA pins 14 and 17 to two logic analyzer IOs. Those two pins are connected to gpios 5 and 6 in the RTL to make sure that they are passed correctly.
+You can check the data read on Digilent Waveforms by choosing "Logic", "Add", "UART", "DIOX" and choose the format to be hexadecimal and choose the trigger to be "edge" and do this to both DIOs connected to FPGA pins 14 and 17. 
+ 
    
-6) If you can see the word read correctly as below on the waveform and outputed in the python script.
+7) If you can see the word read correctly as below on the waveform and outputed in the python script.
 *screenshot* 
 This means that the debug interface is functional and the connections are correct. You can now use Litex server, OpenOCD, and GDB to actually debug a program running on Caravel's management SoC  
 
 ## Step 3: Using GDB to debug program running on Caravel 
 In order to debug a program running on a chip using GDB, a specific version of [OpenOCD](https://github.com/SpinalHDL/openocd_riscv) from SpinalHDL is used. OpenOCD which stands for Open On Chip Debugger translates GDB high level commands to commands which can be understood by different interfaces and CPUs. Litex server is used in order to let an Litex SoC communicate with OpenOCD through a UART bridge. You can read more about this setup in this [repo](https://github.com/enjoy-digital/litex/wiki/Use-GDB-with-VexRiscv-CPU)
 
-Since Caravel's managemnt SoC is generated using Litex, we will use the Litex server and OpanOCD to debug the code running on Caravel like [here]()
+Since Caravel's managemnt SoC is generated using Litex, we will use the Litex server and OpanOCD to debug the code running on Caravel.
+
 #### The steps needed for debug using GDB:
 1) Have caravel implemented on FPGA with flash module connected to it while have the debug_gpio.hex file. This should be achieved after steps 1 and 2. To make sure that this step was done correctly. You should be seeing one of the LEDs toggling and be able to read and write word using the debug uart python script. 
 2) Install OpenOCD using the following commands:
@@ -119,7 +125,12 @@ make
 ```
 litex_server --uart --uart-port=/dev/ttyUSBX --uart-baudrate=138236
 ```
-Notice: you need to comment the line  ``self._send_server_info(client_socket)In litex_server.py`` for OpenOCD to be able to connect to litex server successfully according to [this issue](https://github.com/enjoy-digital/litex/issues/1532) 
+You should see this output:
+```
+[CommUART] port: /dev/ttyUSB1 / baudrate: 138236 / tcp port: 1234
+```
+Note: you need to comment the line  ``self._send_server_info(client_socket)In litex_server.py`` for OpenOCD to be able to connect to litex server successfully according to [this issue](https://github.com/enjoy-digital/litex/issues/1532) 
+
 6) In another terminal, go to the directory where OpenOCD is installed and run:
 ```
 ./src/openocd -c 'interface dummy' \
@@ -133,6 +144,53 @@ Notice: you need to comment the line  ``self._send_server_info(client_socket)In 
 ```
 You should be seeing this output in the OpenOCD terminal:
 ```
+Open On-Chip Debugger 0.11.0+dev-04033-g058dfa50d (2023-06-25-16:38)
+Licensed under GNU GPL v2
+For bug reports, read
+	http://openocd.org/doc/doxygen/bugs.html
+DEPRECATED! use 'adapter driver' not 'interface'
+Info : only one transport option; autoselect 'jtag'
+DEPRECATED! use 'adapter speed' not 'adapter_khz'
+adapter speed: 1 kHz
+
+4027514880
+Info : clock speed 1 kHz
+Info : TAP lx.cpu does not have valid IDCODE (idcode=0x0)
+Info : TAP auto0.tap does not have valid IDCODE (idcode=0x80000000)
+Info : TAP auto1.tap does not have valid IDCODE (idcode=0xc0000000)
+Info : TAP auto2.tap does not have valid IDCODE (idcode=0xe0000000)
+Info : TAP auto3.tap does not have valid IDCODE (idcode=0xf0000000)
+Info : TAP auto4.tap does not have valid IDCODE (idcode=0xf8000000)
+Info : TAP auto5.tap does not have valid IDCODE (idcode=0xfc000000)
+Info : TAP auto6.tap does not have valid IDCODE (idcode=0xfe000000)
+Info : TAP auto7.tap does not have valid IDCODE (idcode=0xff000000)
+Info : TAP auto8.tap does not have valid IDCODE (idcode=0xff800000)
+Info : TAP auto9.tap does not have valid IDCODE (idcode=0xffc00000)
+Info : TAP auto10.tap does not have valid IDCODE (idcode=0xffe00000)
+Info : TAP auto11.tap does not have valid IDCODE (idcode=0xfff00000)
+Info : TAP auto12.tap does not have valid IDCODE (idcode=0xfff80000)
+Info : TAP auto13.tap does not have valid IDCODE (idcode=0xfffc0000)
+Info : TAP auto14.tap does not have valid IDCODE (idcode=0xfffe0000)
+Info : TAP auto15.tap does not have valid IDCODE (idcode=0xffff0000)
+Info : TAP auto16.tap does not have valid IDCODE (idcode=0xffff8000)
+Info : TAP auto17.tap does not have valid IDCODE (idcode=0xffffc000)
+Info : TAP auto18.tap does not have valid IDCODE (idcode=0xffffe000)
+Info : TAP auto19.tap does not have valid IDCODE (idcode=0xfffff000)
+Warn : Unexpected idcode after end of chain: 21 0xfffff800
+Error: double-check your JTAG setup (interface, speed, ...)
+Error: Trying to use configured scan chain anyway...
+Error: lx.cpu: IR capture error; saw 0x0f not 0x01
+Warn : Bypassing JTAG setup events due to errors
+[lx.cpu0] Target successfully examined.
+Info : starting gdb server for lx.cpu0 on 3333
+Info : Listening on port 3333 for gdb connections
+Error: JTAG scan chain interrogation failed: all ones
+Error: Check JTAG interface, timings, target power, etc.
+Error: Trying to use configured scan chain anyway...
+Error: lx.cpu: IR capture error; saw 0x0f not 0x01
+Warn : Bypassing JTAG setup events due to errors
+Info : Listening on port 6666 for tcl connections
+Info : Listening on port 4444 for telnet connections
 ```
 You will also notice that the LED stopped toggling which means the program running on the CPU was halted 
 7) Generate the elf file of the C program.
@@ -142,4 +200,35 @@ You will also notice that the LED stopped toggling which means the program runni
 ```
 You should see this output in the GDB:
 ```
+GNU gdb (SiFive GDB-Metal 10.1.0-2020.12.7) 10.1
+Copyright (C) 2020 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "--host=x86_64-linux-gnu --target=riscv64-unknown-elf".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://github.com/sifive/freedom-tools/issues>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from /home/nouran/new_mgmt_soc/caravel_mgmt_soc_litex/verilog/dv/tests-caravel/gpio_mgmt/gpio_mgmt.elf...
+Remote debugging using localhost:3333
+_start () at /home/nouran/new_mgmt_soc/caravel_mgmt_soc_litex/verilog/dv/firmware/crt0_vex.S:6
+6	  j crt_init
+(gdb)
 ```
+This means GDB is waiting for commands to be sent to it. You can try this:
+```
+(gdb) continue
+```
+You should be able to see the LED continue toggling again. 
+
+Or you can run line by line by running:
+```
+(gdb) next
+```
+You can also set breakpoints and send any gdb commands you want. 
