@@ -53,11 +53,7 @@ So in case of 12 MHz clock which is a period of 83.333 ns, the bit time will be 
 1) Program the flash module with the debug_gpio.hex file you can find [here]() as shown in the step 1
 2) Use Vivado to add the source files you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel/src), along with the constraint file you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel/constr) then click on "generate bitstream" you can find under "PROGRAM AND DEBUG" in the side bar. You can also use the ready bitstream you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel/bit_file)
   
-3) To program the FPGA with the bit file. You can either do it through Vivado by clicking on "program device" under "Open Hardware Target Manager" or you can use [Digilent Adept](https://digilent.com/shop/software/digilent-adept/) to program the FPGA and use this command:
-```
-djtgcfg prog -d CmodA7 -i 0 -f caravel.bit
-```
-4) For the hardware connections:
+3) For the hardware connections:
    * FPGA pin 1 will be connected to CS pin in flash module
    * FPGA pin 6 will be connected to CLK pin in flash module
    * FPGA pin 7 will be connected to IO0 pin in flash module
@@ -70,6 +66,12 @@ djtgcfg prog -d CmodA7 -i 0 -f caravel.bit
 
 Notice that the uart ports ( gpio pin 5 and gpio pin 6 ) are connected to the UART-USB bridge of the Cmod FPGA. This means that the micro USB cable connected to the PC used to program the FPGA will be also used to talk to the debug UART. 
 
+4) To program the FPGA with the bit file. You can either do it through Vivado by clicking on "program device" under "Open Hardware Target Manager" or you can use [Digilent Adept](https://digilent.com/shop/software/digilent-adept/) to program the FPGA and use this command:
+```
+djtgcfg prog -d CmodA7 -i 0 -f caravel.bit
+```
+After programming the FPGA with the caravel chip, you should be able to see one of the LEDs toggling. 
+
 5) Run the debug uart python script, you can find [here](). You can also see the bytes sent and recieved through the logic analyzer and [Digilent WaveForms](https://digilent.com/shop/software/digilent-waveforms/) by connecting FPGA pins 14 and 17 to two logic analyzer IOs. Those two pins are connected to gpios 5 and 6 in the RTL to make sure that they are passed correctly. 
    
 6) If you can see the word read correctly as below on the waveform and outputed in the python script.
@@ -77,3 +79,48 @@ Notice that the uart ports ( gpio pin 5 and gpio pin 6 ) are connected to the UA
 This means that the debug interface is functional and the connections are correct. You can now use Litex server, OpenOCD, and GDB to actually debug a program running on Caravel's management SoC  
 
 ## Step 3: Using GDB to debug program running on Caravel 
+In order to debug a program running on a chip using GDB, a specific version of [OpenOCD](https://github.com/SpinalHDL/openocd_riscv) from SpinalHDL is used. OpenOCD which stands for Open On Chip Debugger translates GDB high level commands to commands which can be understood by different interfaces and CPUs. Litex server is used in order to let an Litex SoC communicate with OpenOCD through a UART bridge. You can read more about this setup in this [repo](https://github.com/enjoy-digital/litex/wiki/Use-GDB-with-VexRiscv-CPU)
+
+Since Caravel's managemnt SoC is generated using Litex, we will use the Litex server and OpanOCD to debug the code running on Caravel like [here]()
+#### The steps needed for debug using GDB:
+1) Have caravel implemented on FPGA with flash module connected to it while have the debug_gpio.hex file. This should be achieved after steps 1 and 2. To make sure that this step was done correctly. You should be seeing one of the LEDs toggling and be able to read and write word using the debug uart python script. 
+2) Install OpenOCD using the following commands:
+```
+git clone https://github.com/SpinalHDL/openocd_riscv.git
+cd openocd_riscv
+wget https://raw.githubusercontent.com/litex-hub/pythondata-cpu-vexriscv/master/pythondata_cpu_vexriscv/verilog/VexRiscv_Debug.yaml
+mv VexRiscv_Debug.yaml cpu0.yaml
+./bootstrap
+./configure --enable-dummy
+make
+```
+3) Install Litex through the instructions [here](https://github.com/enjoy-digital/litex)
+4) Install GDB which is part of the riscv gnu toolchain
+5) In a terminal, run Litex server and replace X with the port name you are using with the FPGA USB. Notice that the baudrate used here is 138236 which was shown how it was calculated above. 
+```
+litex_server --uart --uart-port=/dev/ttyUSBX --uart-baudrate=138236
+```
+Notice: you need to comment the line  ``self._send_server_info(client_socket)In litex_server.py`` for OpenOCD to be able to connect to litex server successfully according to [this issue](https://github.com/enjoy-digital/litex/issues/1532) 
+6) In another terminal, go to the directory where OpenOCD is installed and run:
+```
+./src/openocd -c 'interface dummy' \
+              -c 'adapter_khz 1' \
+              -c 'jtag newtap lx cpu -irlen 4' \
+              -c 'target create lx.cpu0 vexriscv -endian little -chain-position lx.cpu -dbgbase 0xF00F0000' \
+              -c 'vexriscv cpuConfigFile cpu0.yaml' \
+              -c 'vexriscv networkProtocol etherbone' \
+              -c 'init' \
+              -c 'reset halt'
+```
+You should be seeing this output in the OpenOCD terminal:
+```
+```
+You will also notice that the LED stopped toggling which means the program running on the CPU was halted 
+7) Generate the elf file of the C program.
+8) In a third terminal, run GDB using this command: (replace the .elf file with the location of your elf file)
+```
+/opt/riscv64-unknown-elf-toolchain-10.2.0-2020.12.8-x86_64-linux-ubuntu14/bin/riscv64-unknown-elf-gdb /home/nouran/new_mgmt_soc/caravel_mgmt_soc_litex/verilog/dv/tests-caravel/gpio_mgmt/gpio_mgmt.elf -ex 'target extended-remote localhost:3333'
+```
+You should see this output in the GDB:
+```
+```
