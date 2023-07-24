@@ -1,6 +1,25 @@
 # Caravel_on_FPGA
-This repo ...
-## Step 1: Flash Programming 
+In this repo you will be shown how to implement Cravel on FPGA and use its debug interface to debug a program running on Caravel's management SoC using GDB.
+## Hardware Tools used:
+* Cmod Artix 7-35T
+* QSPI SST26VF080A Flash module
+* two micro USB cable
+* Analog Discovery kit (optional for debugging)
+* Jumper wires for connecting
+  
+![image](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/assets/79912650/c9aac42d-5d43-4030-bcca-50d65617d6ba)
+
+
+## Software Tools used:
+* Xilinx Vivado for synthesizing, implementing, and generating the bit stream of the RTL design
+* Digilent Adept for programming the FPGA with the bit file
+* Digilent Waveforms for using the analog discovery kit logic analyzer
+  
+![image](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/assets/79912650/b47b65dd-1cd1-44c1-a9ad-e066a5f25ec7)
+
+## Steps for debugging a program running on CaraveL using GDB:
+We will need first to 
+### Step 1: Flash Programming 
 In Caravel, the program which will be running on the vexriscv core in the mangament SoC can be read from an external flash module. However, the flash needs first to be programmed with the hex file of the compiled C program. This can be done by having a flash writer slave which talks to the flash and program it. For the flash writer to do this, it needs a master. The master used here is a uart master which receives commands from PC and program the flash writer which will eventually program the flash. The uart master and flash writer modules rtl code was based on [this](https://github.com/shalan/SoCBUS) repository. A python script is used to program the uart master and it is based on [this](https://github.com/nabadawy/Chameleon_SoC_with-SST26VF080A-flash-/tree/main) repository where you can also find an explanation of the commands used to program the flash.
 
 #### Here are the steps of the flash programming:
