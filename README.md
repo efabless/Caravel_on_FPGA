@@ -14,7 +14,7 @@ export GCC_PREFIX=<gcc_prefix>
 export PDK_ROOT=<path_to_PDK>
 export PDK= sky130A
 ```
-you will find the hex file generated in the same directory of the test.
+you will find the hex file generated in the same directory of the test. For this tutorial, you can modify the ``gpio_mgmt`` test to have [this](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel/C_program) C program  which toggles the mgmt gpio pin and enables the debug interface. 
 
 2) Use Vivado to add the source files you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/flash_programming/src), along with the constraints file you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/flash_programming/constr) then click on "generate bitstream" you can find under "PROGRAM AND DEBUG" in the side bar. You can also use the ready bitstream you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/flash_programming/bit_file)
   
@@ -34,10 +34,13 @@ djtgcfg prog -d CmodA7 -i 0 -f uart_flash_writer.bit
 
     Notice that the uart ports (TX and RX ) are connected to the UART-USB bridge of the Cmod FPGA. This means that the micro USB cable connected to the PC used to      program the FPGA will be also used to talk to the UART master.   
 
-5) Now the uart master flash writer design is implemnted on the FPGA and the hardware connections are ready, all you need is to run the python script you can find [here]() which talks to the uart master of the design. Make sure to change in the python script the name of the hex file you want to program the flash with and change the port name.
+5) Now the uart master flash writer design is implemnted on the FPGA and the hardware connections are ready, all you need is to run the python script you can find [here]() which talks to the uart master of the design. Make sure to change in the python script the name of the hex file you want to program the flash with and change the port name. For the tutorial, you can use [this]() ready hex file which is the compilation of [this](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel/C_program) C program. 
   
 6) The python script reads the program in the flash after writing it. You can check if they are the same. 
 
 ## Step 2: Caravel implementation on FPGA
-## Step 3: Hardware connections 
-## Step 4: Using GDB to debug program running on Caravel 
+Now, that the flash is programmed with the program we want to run on Caravel, we can run this program on Caravel implemented on FPGA. You can find the source and constraints files for the management SoC alone [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/mgmt_soc) and the files for the whole Caravel could be found [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel) 
+
+
+
+## Step 3: Using GDB to debug program running on Caravel 
