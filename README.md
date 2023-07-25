@@ -264,3 +264,4 @@ Change the "target" and the "symbol-file" to be the path for the .elf file of th
 
 ![image](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/assets/79912650/31b21c6a-1cfd-4bd1-be4c-ec77e4334fdf)
 
+![image](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/assets/79912650/56b7ddff-8c49-4837-8312-4e335b71707a)
