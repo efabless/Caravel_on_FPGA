@@ -260,8 +260,17 @@ You can also use GDB in Visual Studio Code instead of using the command line to 
     }
 ```
 
-Change the "target" and the "symbol-file" to be the path for the .elf file of the program. Then run the debugger using the green arrow. After that you can use the debug control buttons to restart, step over, step back, continue and you can insert break points as well.
+Change the "target" and the "symbol-file" to be the path for the .elf file of the program. Then run the debugger using the "Start Debugging" green arrow button. 
 
 ![image](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/assets/79912650/31b21c6a-1cfd-4bd1-be4c-ec77e4334fdf)
 
-![image](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/assets/79912650/56b7ddff-8c49-4837-8312-4e335b71707a)
+Then in the Debug Console, type the command "interrupt" inorder to halt the CPU to be able to execute line by line
+
+![image](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/assets/79912650/51a4b4c5-da5d-4a3c-ae7e-b6be33752a4b)
+
+
+After that, you can use the debug control buttons to restart, step over, step back, continue.
+
+![image](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/assets/79912650/cdb52bc6-5999-4005-aed6-5ed6eccd7c6e)
+
+You can set breakpoints as well by clicking next to the line you want to have a breakpoint at. A red dot should appear. If you want to delete the breakpoint. click on the red dot again.
