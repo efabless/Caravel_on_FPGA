@@ -194,8 +194,10 @@ Info : Listening on port 6666 for tcl connections
 Info : Listening on port 4444 for telnet connections
 ```
 You will also notice that the LED stopped toggling which means the program running on the CPU was halted 
+
 7) Generate the elf file of the C program. You can do this using the [caravel management soc repo](https://github.com/efabless/caravel_mgmt_soc_litex). You can run ``make <test_name.elf>`` inside any test in the directory ``caravel_mgmt_soc_litex/verilog/dv/tests-caravel/<test-name>``
 Before this, make sure to remove the ``--strip-debug`` flag used in the compilation of the c program. You can find it in ``caravel_mgmt_soc_litex/verilog/dv/make/sim.makefile`` in line 43. You can also use the ready elf file you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/elf_file/gpio_mgmt.elf)
+
 8) In a third terminal, run GDB using this command: (replace the .elf file with the location of your generated elf file)
 ```
 /opt/riscv64-unknown-elf-toolchain-10.2.0-2020.12.8-x86_64-linux-ubuntu14/bin/riscv64-unknown-elf-gdb /home/nouran/new_mgmt_soc/caravel_mgmt_soc_litex/verilog/dv/tests-caravel/gpio_mgmt/gpio_mgmt.elf -ex 'target extended-remote localhost:3333'
@@ -234,3 +236,30 @@ Or you can run line by line by running:
 (gdb) next
 ```
 You can also set breakpoints and send any gdb commands you want. 
+
+You can also use GDB in Visual Studio Code instead of using the command line to do so. To do this, open the Debug panel (CTRL + SHIFT + D) and select “Add Configuration > GDB” through the top left dropdown arrow. Create a GDB configuration in launch.json and add the following:
+
+```
+{
+    "version": "0.2.0",
+        "configurations": [
+            {
+                "name": "GDB",
+                "type": "gdb",
+                "request": "launch",
+                "cwd": "${workspaceRoot}",
+                "target": "/home/nouran/new_mgmt_soc/caravel_mgmt_soc_litex/verilog/dv/tests-caravel/gpio_mgmt/gpio_mgmt.elf",
+                "gdbpath" : "/opt/riscv64-unknown-elf-toolchain-10.2.0-2020.12.8-x86_64-linux-ubuntu14/bin/riscv64-unknown-elf-gdb",
+                "autorun": [
+                    "target extended-remote localhost:3333",
+                    "symbol-file /home/nouran/new_mgmt_soc/caravel_mgmt_soc_litex/verilog/dv/tests-caravel/gpio_mgmt/gpio_mgmt.elf"
+                    ]
+            }
+            
+        ]
+    }
+```
+
+Change the "target" and the "symbol-file" to be the path for the .elf file of the program. Then run the debugger using the green arrow. After that you can use the debug control buttons to restart, step over, step back, continue and you can insert break points as well.
+![image](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/assets/79912650/31b21c6a-1cfd-4bd1-be4c-ec77e4334fdf)
+
