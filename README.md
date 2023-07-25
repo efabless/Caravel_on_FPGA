@@ -261,5 +261,6 @@ You can also use GDB in Visual Studio Code instead of using the command line to 
 ```
 
 Change the "target" and the "symbol-file" to be the path for the .elf file of the program. Then run the debugger using the green arrow. After that you can use the debug control buttons to restart, step over, step back, continue and you can insert break points as well.
+
 ![image](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/assets/79912650/31b21c6a-1cfd-4bd1-be4c-ec77e4334fdf)
 
