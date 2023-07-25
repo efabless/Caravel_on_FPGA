@@ -272,5 +272,3 @@ Then in the Debug Console, type the command "interrupt" inorder to halt the CPU 
 After that, you can use the debug control buttons to restart, step over, step back, continue.
 
 ![image](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/assets/79912650/cdb52bc6-5999-4005-aed6-5ed6eccd7c6e)
-
-You can set breakpoints as well by clicking next to the line you want to have a breakpoint at. A red dot should appear. If you want to delete the breakpoint. click on the red dot again.
