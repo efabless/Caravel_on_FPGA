@@ -101,7 +101,7 @@ djtgcfg prog -d CmodA7 -i 0 -f caravel.bit
 ![image](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/assets/79912650/fd25238f-dae3-4d01-8a54-cb66f0c38457)
 
    
-7) Make sure that you saved the [main.py](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/Micropython_scripts/main.py) ,[flash.py](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/Micropython_scripts/flash.py) and [debug_gpio.hex](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/Micropython_scripts/debug_gpio.hex) files in the raspberrypi pico (when you click save as you will have the option to save on your PC or on the pico).
+7) Make sure that you saved the [main.py](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/Micropython_scripts/main.py) ,[flash.py](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/Micropython_scripts/flash.py) and [debug_gpio.hex](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/Micropython_scripts/debug_gpio.hex) (or the hex file of the program you want to run) files in the raspberrypi pico (when you click save as you will have the option to save on your PC or on the pico).
 
 ![image](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/assets/79912650/87b9c6ed-8f7b-4250-bc7c-641c69a94778)
 
