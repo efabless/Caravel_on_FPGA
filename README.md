@@ -110,7 +110,7 @@ djtgcfg prog -d CmodA7 -i 0 -f caravel.bit
    
 ![image](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/assets/79912650/8efd786c-7a27-4f78-b6eb-039787e22a86)
 
-You should see the following output in the Shell
+You should see the following output in the Thony's Shell
 ```
 Caravel data:
    mfg        = 0456
