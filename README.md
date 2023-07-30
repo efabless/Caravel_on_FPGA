@@ -97,11 +97,19 @@ djtgcfg prog -d CmodA7 -i 0 -f caravel.bit
   
 
 5) Now the Caravel design is implemnted on the FPGA and the hardware connections are ready, you need to run micropython on the raspberry pi pico. You will find the scripts [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel/Micropython_scripts). You Can use [Thony](https://thonny.org/) inorder to run the micropython script on the raspberry pi pico easily. You can install Thony on Ubuntu using ``sudo apt install thonny`` and then use the instructions [here](https://core-electronics.com.au/guides/how-to-setup-a-raspberry-pi-pico-and-code-with-thonny/#install) to setup raspberrypi pico with Thony.
-   
-6) Make sure that you saved the [main.py](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/Micropython_scripts/main.py) ,[flash.py](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/Micropython_scripts/flash.py) and [debug_gpio.hex](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/Micropython_scripts/debug_gpio.hex) files in the raspberrypi pico (when you click save as you will have the option to save on your PC or on the pico).
 
-7) Then run using the green arrow 
+![image](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/assets/79912650/fd25238f-dae3-4d01-8a54-cb66f0c38457)
+
+   
+7) Make sure that you saved the [main.py](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/Micropython_scripts/main.py) ,[flash.py](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/Micropython_scripts/flash.py) and [debug_gpio.hex](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/Micropython_scripts/debug_gpio.hex) files in the raspberrypi pico (when you click save as you will have the option to save on your PC or on the pico).
+
+![image](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/assets/79912650/87b9c6ed-8f7b-4250-bc7c-641c69a94778)
+
+
+7) Then run using the green arrow
+   
 ![image](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/assets/79912650/8efd786c-7a27-4f78-b6eb-039787e22a86)
+
 You should see the following output in the Shell
 ```
 Caravel data:
