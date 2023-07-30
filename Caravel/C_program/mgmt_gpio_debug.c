@@ -49,11 +49,29 @@ void main()
 		reg_gpio_out = 1;
 		reg_gpio_out = 0;
 	}*/
+//
+	//enable debug 
+	/*reg_wb_enable =1; // for enable writing to reg_debug_1 and reg_debug_2
+	reg_debug_1 = 0;
+	reg_debug_2 = 0;*/
+
+	// set the mode for debug uart gpios 5 and 6 
+	//reg_mprj_io_5 = GPIO_MODE_MGMT_STD_INPUT_NOPULL;
+	//reg_mprj_io_6 = GPIO_MODE_MGMT_STD_OUTPUT;
+	/*reg_mprj_io_0 = GPIO_MODE_MGMT_STD_INPUT_NOPULL;
+
+	reg_mprj_xfer = 1;
+    while ((reg_mprj_xfer&0x1) == 1);*/
 
 	debug_oeb_out_write(1);
 
 	(*(volatile uint32_t*) CSR_DEBUG_MODE_OUT_ADDR ) = 1; // enable debug mode
 
+	/*for (int i=0;i < 10000; i++){
+        continue;
+    }*/
+
+	//reg_uart_enable = 1;
    
 
 	while (1) {
@@ -61,9 +79,8 @@ void main()
 		for (i = 0; i < 10000; i++) {
 			reg_gpio_out = 1;
 		}
-		for (i = 0; i < 10000; i++) {
+		for (i = 0; i < 50000; i++) {
 			reg_gpio_out = 0;
 		}
 	}
 }
-
