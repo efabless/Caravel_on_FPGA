@@ -6,7 +6,7 @@ In this repo you will be shown how to implement Cravel on FPGA and use its debug
 * two micro USB cable
 * Analog Discovery kit (optional for debugging)
 * Jumper wires for connecting
-* Raspberry pi pico (optional if you want to program the flash using the housekeeping SPI)
+* Raspberry pi pico (if you want to program the flash using the housekeeping SPI)
   
 ![image](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/assets/79912650/c9aac42d-5d43-4030-bcca-50d65617d6ba)
 
@@ -15,6 +15,7 @@ In this repo you will be shown how to implement Cravel on FPGA and use its debug
 * Xilinx Vivado for synthesizing, implementing, and generating the bit stream of the RTL design
 * Digilent Adept for programming the FPGA with the bit file
 * Digilent Waveforms for using the analog discovery kit logic analyzer
+* Thony (if you want to program the flash using the housekeeping SPI)
   
 ![image](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/assets/79912650/b47b65dd-1cd1-44c1-a9ad-e066a5f25ec7)
 
