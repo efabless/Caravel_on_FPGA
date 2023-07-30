@@ -23,10 +23,10 @@ In this repo you will be shown how to implement Cravel on FPGA and use its debug
 ### Step 1: Flash Programming 
 In Caravel, the program which will be running on the vexriscv core in the mangament SoC can be read from an external flash module. However, the flash needs first to be programmed with the hex file of the compiled C program. You have two options to do this. 
 
-The first option is to use another RTL design which have a UART master and a flash writer slave and implement it on FPGA and use [this]() python script to send commands from PC through the USB-UART bridge in the FPGA. The advantage of this option is that you wouldn't need to use the Raspberry pi pico if not availble. 
+The first option is to use another RTL design which have a UART master and a flash writer slave and implement it on FPGA and use [this](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/flash_programming/flash_programming_script.py) python script to send commands from PC through the USB-UART bridge in the FPGA. The advantage of this option is that you wouldn't need to use the Raspberry pi pico if not availble. 
 Note: The uart master and flash writer modules rtl code was based on [this](https://github.com/shalan/SoCBUS) repository. 
 
-The second option is to use Caravel's housekeeping SPI interface to make the Caravel in management pass through mode which means the housekeeping SPI signals which are on gpios from 1 to 4 will be connected to the flash interface signals. In this case we will need an SPI master to talk to the housekeeping SPI slave. The SPI interface in Raspberry pi pico is used in this tutorial along with a micropython script you can find [here]() The advantage of this option is that you wouldn't need another design other than Caravel to be implemneted on FPGA. 
+The second option is to use Caravel's housekeeping SPI interface to make the Caravel in management pass through mode which means the housekeeping SPI signals which are on gpios from 1 to 4 will be connected to the flash interface signals. In this case we will need an SPI master to talk to the housekeeping SPI slave. The SPI interface in Raspberry pi pico is used in this tutorial along with a micropython script you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel/Micropython_scripts) The advantage of this option is that you wouldn't need another design other than Caravel to be implemneted on FPGA. 
 
 #### First option steps (flash programming using UART master and flash writer):
 1) First you need the hex file you will program the flash with. In order to compile the c program, you can do this using the [caravel management soc repo](https://github.com/efabless/caravel_mgmt_soc_litex). You can run ``make hex`` inside any test in the directory ``caravel_mgmt_soc_litex/verilog/dv/tests-caravel/<test-name>`` but before this, make sure you have done the following exports:
@@ -96,11 +96,52 @@ djtgcfg prog -d CmodA7 -i 0 -f caravel.bit
    * FPGA pin 18 (mprj_io[4]/SCK) will be connected to pin 4 in Raspberry pi pico (SPIO SCK)
   
 
-5) Now the Caravel design is implemnted on the FPGA and the hardware connections are ready, you need to run micropython on the raspberry pi pico. You will find the scripts [here](). You Can use [Thony]() inorder to run the micropython script on the raspberry pi pico easily. To connect to the Raspberry pi pico, 
+5) Now the Caravel design is implemnted on the FPGA and the hardware connections are ready, you need to run micropython on the raspberry pi pico. You will find the scripts [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel/Micropython_scripts). You Can use [Thony](https://thonny.org/) inorder to run the micropython script on the raspberry pi pico easily. You can install Thony on Ubuntu using ``sudo apt install thonny`` and then use the instructions [here](https://core-electronics.com.au/guides/how-to-setup-a-raspberry-pi-pico-and-code-with-thonny/#install) to setup raspberrypi pico with Thony.
    
-7) Make sure that you saved the [main.py]() , [flash.py]() and [debug_gpio.hex]() files in the raspberrypi pico (when you click save as you will have the option to save on your PC or on the pico).  
-  
+6) Make sure that you saved the [main.py](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/Micropython_scripts/main.py) ,[flash.py](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/Micropython_scripts/flash.py) and [debug_gpio.hex](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/Micropython_scripts/debug_gpio.hex) files in the raspberrypi pico (when you click save as you will have the option to save on your PC or on the pico).
 
+7) Then run using the green arrow 
+![image](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/assets/79912650/8efd786c-7a27-4f78-b6eb-039787e22a86)
+You should see the following output in the Shell
+```
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+status = 0x02
+ 
+JEDEC = b'ef4017'
+Erasing chip...
+done
+status = 0x0
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+ 
+JEDEC = b'ef4017'
+setting address to 00000000
+addr 0x0: flash page write successful (1)
+addr 0x100: flash page write successful (1)
+addr 0x200: flash page write successful (1)
+addr 0x300: flash page write successful (2)
+
+total_bytes = 892
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000000
+addr 0x0: read compare successful
+addr 0x100: read compare successful
+addr 0x200: read compare successful
+addr 0x300: read compare successful
+
+total_bytes = 892
+```
+You will also see the FPGA LED toggling 
 
 ### Step 2: Caravel implementation on FPGA
 Now, that the flash is programmed with the program we want to run on Caravel, we can run this program on Caravel implemented on FPGA. You can find the source and constraints files for the management SoC alone [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/mgmt_soc) and the source files for the whole Caravel could be found [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel) 
