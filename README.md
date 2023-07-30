@@ -101,7 +101,7 @@ djtgcfg prog -d CmodA7 -i 0 -f caravel.bit
 ![image](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/assets/79912650/fd25238f-dae3-4d01-8a54-cb66f0c38457)
 
    
-7) Make sure that you saved the [main.py](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/Micropython_scripts/main.py) ,[flash.py](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/Micropython_scripts/flash.py) and [debug_gpio.hex](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/Micropython_scripts/debug_gpio.hex) (or the hex file of the program you want to run) files in the raspberrypi pico (when you click save as you will have the option to save on your PC or on the pico).
+6) Make sure that you saved the [main.py](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/Micropython_scripts/main.py) ,[flash.py](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/Micropython_scripts/flash.py) and [debug_gpio.hex](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/Micropython_scripts/debug_gpio.hex) (or the hex file of the program you want to run) files in the raspberrypi pico (when you click save as you will have the option to save on your PC or on the pico).
 
 ![image](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/assets/79912650/87b9c6ed-8f7b-4250-bc7c-641c69a94778)
 
@@ -149,7 +149,7 @@ addr 0x300: read compare successful
 
 total_bytes = 892
 ```
-You will also see the FPGA LED toggling 
+You should also see the FPGA LED toggling 
 
 ### Step 2: Caravel implementation on FPGA
 Now, that the flash is programmed with the program we want to run on Caravel, we can run this program on Caravel implemented on FPGA. You can find the source and constraints files for the management SoC alone [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/mgmt_soc) and the source files for the whole Caravel could be found [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel) 
