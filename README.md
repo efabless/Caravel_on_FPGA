@@ -77,28 +77,30 @@ export PDK= sky130A
 ```
 you will find the hex file generated in the same directory of the test. For this tutorial, you can modify the ``gpio_mgmt`` test to have [this](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel/C_program) C program  which toggles the mgmt gpio pin and enables the debug interface. 
 
-2) Use Vivado to add Caravel's source files you can find [here](), along with the constraint file you can find [here]() then click on "generate bitstream" you can find under "PROGRAM AND DEBUG" in the side bar. You can also use the ready bitstream you can find [here]()
+2) Use Vivado to add Caravel's source files you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel/src), along with the constraint file you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel/constr) then click on "generate bitstream" you can find under "PROGRAM AND DEBUG" in the side bar. You can also use the ready bitstream you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel/bit_file)
   
 3) To program the FPGA with the bit file. You can either do it through Vivado by clicking on "program device" under "Open Hardware Target Manager" or you can use [Digilent Adept](https://digilent.com/shop/software/digilent-adept/) to program the FPGA and use this command:
 ```
-djtgcfg prog -d CmodA7 -i 0 -f uart_flash_writer.bit
+djtgcfg prog -d CmodA7 -i 0 -f caravel.bit
 ```
 4) For the hardware connections:
-   * FPGA pin 5 will be connected to CS pin in flash module
+   * FPGA pin 1 will be connected to CS pin in flash module
    * FPGA pin 6 will be connected to CLK pin in flash module
    * FPGA pin 7 will be connected to IO0 pin in flash module
    * FPGA pin 9 will be connected to IO1 pin in flash module
-   * FPGA pin 10 will be connected to IO2 pin in flash module
-   * FPGA pin 11 will be connected to IO3 pin in flash module
    * FPGA PMOD VCC will be connected to 3v3 pin in flash module
    * FPGA PMOD GND will be connected to GND pin in flash module
-
-    Notice that the uart ports (TX and RX ) are connected to the UART-USB bridge of the Cmod FPGA. This means that the micro USB cable connected to the PC used to      program the FPGA will be also used to talk to the UART master.   
-
-5) Now the uart master flash writer design is implemnted on the FPGA and the hardware connections are ready, all you need is to run the python script you can find [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/flash_programming) which talks to the uart master of the design. Make sure to change in the python script the name of the hex file you want to program the flash with and change the port name. For the tutorial, you can use [this](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/blob/main/Caravel/hex_file/debug_gpio.hex) ready hex file which is the compilation of [this](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel/C_program) C program. 
+   * FPGA pin 11 (mprj_io[1]/SDO) will be connected to pin 6 in Raspberry pi pico (MISO/ SPIO RX)
+   * FPGA pin 12 (mprj_io[2]/SDI) will be connected to pin 5 in Raspberry pi pico (MOSI/ SPIO TX)
+   * FPGA pin 13 (mprj_io[3]/CSB) will be connected to pin 7 in Raspberry pi pico (SPIO CSn)
+   * FPGA pin 18 (mprj_io[4]/SCK) will be connected to pin 4 in Raspberry pi pico (SPIO SCK)
   
-6) The python script reads the program in the flash after writing it. You can check if they are the same. 
-Note: The python script used to program the uart master is based on [this](https://github.com/nabadawy/Chameleon_SoC_with-SST26VF080A-flash-/tree/main) repository where you can also find an explanation of the commands used to program the flash.
+
+5) Now the Caravel design is implemnted on the FPGA and the hardware connections are ready, you need to run micropython on the raspberry pi pico. You will find the scripts [here](). You Can use [Thony]() inorder to run the micropython script on the raspberry pi pico easily. To connect to the Raspberry pi pico, 
+   
+7) Make sure that you saved the [main.py]() , [flash.py]() and [debug_gpio.hex]() files in the raspberrypi pico (when you click save as you will have the option to save on your PC or on the pico).  
+  
+
 
 ### Step 2: Caravel implementation on FPGA
 Now, that the flash is programmed with the program we want to run on Caravel, we can run this program on Caravel implemented on FPGA. You can find the source and constraints files for the management SoC alone [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/mgmt_soc) and the source files for the whole Caravel could be found [here](https://github.com/NouranAbdelaziz/Caravel_on_FPGA/tree/main/Caravel) 
