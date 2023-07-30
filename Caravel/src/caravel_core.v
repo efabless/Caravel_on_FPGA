@@ -290,6 +290,7 @@ module caravel_core (
 	// Clock and reset
 	.core_clk(caravel_clk),
 	.core_rstn(caravel_rstn),
+	//.core_rstn(1'b0),
 
 	// GPIO (1 pin)
 	.gpio_out_pad(gpio_out_core),
@@ -587,6 +588,9 @@ module caravel_core (
 
     // Housekeeping interface
 
+	wire por;
+	FPGA_POR por_fpga (.clk(caravel_clk), .por(por));
+
     housekeeping housekeeping (
     `ifdef USE_POWER_PINS
 		.VPWR(vccd),
@@ -606,7 +610,8 @@ module caravel_core (
         .wb_dat_o(hk_dat_i),
 		
         //.porb(porb_l),
-        .porb(caravel_rstn),
+        //.porb(caravel_rstn),
+		.porb(~por),
 
         .pll_ena(spi_pll_ena),
         .pll_dco_ena(spi_pll_dco_ena),
@@ -734,7 +739,8 @@ module caravel_core (
     );
 
     gpio_defaults_block #(
-	.GPIO_CONFIG_INIT(13'h1803)
+	//.GPIO_CONFIG_INIT(13'h1803)
+	.GPIO_CONFIG_INIT(13'h1809)
     ) gpio_defaults_block_1 (
     	`ifdef USE_POWER_PINS
 	    .VPWR(vccd),
@@ -755,7 +761,8 @@ module caravel_core (
 
     // CSB pin is set as an internal pull-up
     gpio_defaults_block #(
-	.GPIO_CONFIG_INIT(13'h0801)
+	//.GPIO_CONFIG_INIT(13'h0801)
+	.GPIO_CONFIG_INIT(13'h0403)
     ) gpio_defaults_block_3 (
     	`ifdef USE_POWER_PINS
 	    .VPWR(vccd),
