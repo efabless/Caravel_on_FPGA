@@ -272,13 +272,13 @@ def PROG_WR():
    flag=1
    #f= open("test.txt", "a")
    arr= array.array('B',)
-   with open('gpio_debug.hex','r') as f:
+   with open('debug_gpio.hex','r') as f:
     lines=f.read().splitlines()
     lines= [x for x in lines if not x.startswith('@')]
     lines = [i.split(" ") for i in lines]
     for x in lines:
-        for i in x[:-1]:
-        #for i in x:
+        #for i in x[:-1]:
+        for i in x:
             #print(x)
             #print("\n")
             temp= int(i,16)
