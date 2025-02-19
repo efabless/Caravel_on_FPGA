@@ -67,7 +67,8 @@ module caravel (
 `endif	
     inout                     gpio,     // Used for external LDO control
     inout [`MPRJ_IO_PADS-1:0] mprj_io,
-    input                     clock,    // CMOS core clock input, not a crystal
+    // input                     clock,    // CMOS core clock input, not a crystal
+    input                     clk_osc,
     input                     FPGA_rst,   // Reset input (Active Low)
 
     // Note that only two flash data pins are dedicated to the
@@ -88,7 +89,10 @@ module caravel (
 
       // FPGA button is active high (1 then 0) while caravel is active low (0 then 1), that is why it needs to be inverted 
 
-      assign resetb = ~FPGA_rst;
+      // assign resetb = ~FPGA_rst;
+      wire clock;
+
+      clk_wiz_0 clock_div (.clk_out1(clock), .reset(FPGA_rst), .locked(~resetb), .clk_in1(clk_osc));
 
   //------------------------------------------------------------
   // This value is uniquely defined for each user project.
