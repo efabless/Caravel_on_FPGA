@@ -78,13 +78,13 @@ module caravel (
     output flash_csb,
     output flash_clk,
     inout  flash_io0,
-    inout  flash_io1,
-    output ser_rx_out,
-    output ser_tx_out,
-    output sdo_out,
-    output sdi_out,
-    output csb_out,
-    output sck_out
+    inout  flash_io1
+//     output ser_rx_out,
+//     output ser_tx_out,
+//     output sdo_out,
+//     output sdi_out,
+//     output csb_out,
+//     output sck_out
 );
 
       // FPGA button is active high (1 then 0) while caravel is active low (0 then 1), that is why it needs to be inverted 
@@ -92,7 +92,7 @@ module caravel (
       // assign resetb = ~FPGA_rst;
       wire clock;
 
-      clk_wiz_0 clock_div (.clk_out1(clock), .reset(FPGA_rst), .locked(~resetb), .clk_in1(clk_osc));
+      clk_wiz_0 clock_div (.clk_out1(clock), .reset(FPGA_rst), .locked(resetb), .clk_in1(clk_osc));
 
   //------------------------------------------------------------
   // This value is uniquely defined for each user project.
@@ -184,20 +184,20 @@ module caravel (
   // ser_tx	= mprj_io[6]		(output)
   // irq		= mprj_io[7]		(input)
 
-  wire ser_rx_out;
-  wire ser_tx_out;
+//   wire ser_rx_out;
+//   wire ser_tx_out;
 
-  wire sdo_out;
-  wire sdi_out;
-  wire csb_out;
-  wire sck_out;
+//   wire sdo_out;
+//   wire sdi_out;
+//   wire csb_out;
+//   wire sck_out;
 
-  assign ser_rx_out =  mprj_io[5];
-  assign ser_tx_out =  mprj_io[6];
+//   assign ser_rx_out =  mprj_io[5];
+//   assign ser_tx_out =  mprj_io[6];
 
-  assign sdo_out = mprj_io[1];
-  assign sdi_out = mprj_io[2];
-  assign csb_out = mprj_io[3];
+//   assign sdo_out = mprj_io[1];
+//   assign sdi_out = mprj_io[2];
+//   assign csb_out = mprj_io[3];
   assign sck_out = mprj_io[4];
 
 
@@ -314,7 +314,7 @@ module caravel (
       .flash_io1_do_core(flash_io1_do),
       .flash_io0_di_core(flash_io0_di),
       .flash_io1_di_core(flash_io1_di),
-      //.mprj_io_one(mprj_io_one),
+      // .mprj_io_one(mprj_io_one),
       .mprj_io_in(mprj_io_in),
       .mprj_io_out(mprj_io_out),
       .mprj_io_oeb(mprj_io_oeb),

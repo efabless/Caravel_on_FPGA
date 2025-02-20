@@ -34,7 +34,7 @@ module gpio_mgmt_tb;
 	reg power1;
 	reg power2;
 
-	always #10 clock <= (clock === 1'b0);
+	always #5 clock <= (clock === 1'b0);
 
 	initial begin
 		clock <= 0;
@@ -175,7 +175,7 @@ module gpio_mgmt_tb;
 		.vccd2	  (VDD1V8),
 		.vssd1	  (VSS),
 		.vssd2	  (VSS),*/
-		.clock	  (clock),
+		.clk_osc  (clock),
 		.gpio     (gpio),
 		.mprj_io  (mprj_io),
 		.flash_csb(flash_csb),

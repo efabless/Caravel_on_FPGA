@@ -45,7 +45,7 @@ module mgmt_pass_thru_tb;
 
 	wire SDO;
 
-	always #10 clock <= (clock === 1'b0);
+	always #5 clock <= (clock === 1'b0);
 
 	initial begin
 		clock = 0;
@@ -148,7 +148,9 @@ module mgmt_pass_thru_tb;
 	    #2000;
 
 	    RSTB <= 1'b0;
-/*
+
+		#12000
+
     //read manufacturer ID 
         start_csb();
 		write_byte(8'h40);    // command to read  until CSB raised
@@ -175,7 +177,7 @@ module mgmt_pass_thru_tb;
 				$display("Monitor: Test HK SPI Pass-thru (RTL) Failed"); //$finish; 
 			`endif
 		end
-*/
+
    // put SoC on reset 
         start_csb();
 	    write_byte(8'h80);	// Write register command 
@@ -236,7 +238,7 @@ module mgmt_pass_thru_tb;
 	assign SDO = mprj_io[1];
 	
 	caravel uut (
-		.clock	  (clock),
+		.clk_osc  (clock),
 		.gpio     (gpio),
 		.mprj_io  (mprj_io),
 		.flash_csb(flash_csb),
@@ -257,9 +259,9 @@ module mgmt_pass_thru_tb;
 		.io3()			// not used
 	);
 
-	tbuart tbuart (
-		.ser_rx(uart_tx)
-	);
+	// tbuart tbuart (
+	// 	.ser_rx(uart_tx)
+	// );
 		
 endmodule
 `default_nettype wire

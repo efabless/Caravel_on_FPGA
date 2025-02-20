@@ -9,56 +9,6 @@ set_property -dict { PACKAGE_PIN E3    IOSTANDARD LVCMOS33 } [get_ports { clk_os
 
 create_clock -add -name clock -period 83.33 -waveform {0 41.66} [get_pins {clock_div/clk_out1}]; # 12 MHz
 
-# create_clock -add -name clock -period 41.67 -waveform {0 20.835} [get_pins {clock_div/clk_out2}];  # 24 MHz
-# create_clock -add -name clock -period 33.33 -waveform {0 16.66} [get_pins {clock_div/clk_out4}]; # 30 MHz
-
-# create_clock -add -name clock -period 20.8333 -waveform {0 10.4165} [get_pins {clock_div/clk_out3}]; # 48 MHz
-
-# create_clock -add -name clock -period 27.77 -waveform {0 13.885} [get_pins {clock_div/clk_out2}];  # 36 MHz
-
-# create_clock -add -name clock -period 20 -waveform {0 10} [get_pins {clock_div/clk_out4}]; # 50 MHz
-
-# create_clock -add -name clock -period 16.6667 -waveform {0 8.3335} [get_pins {clock_div/clk_out4}]; # 60 MHz
-
-# create_clock -add -name clock -period 16.276 -waveform {0 8.138} [get_pins {clock_div/clk_out1}]; # 61.44 MHz
-
-# create_clock -add -name clock -period 19.53 -waveform {0 9.765} [get_pins {clock_div/clk_out4}]; # 51.2 MHz
-
-# create_clock -add -name clock -period 25.699 -waveform {0 12.85} [get_pins {clock_div/clk_out4}]; # 38.912 MHz
-
-# create_clock -add -name clock -period 26.5 -waveform {0 13.25} [get_pins {clock_div/clk_out4}]; # 37.74 MHz
-
-# create_clock -add -name clock -period 27.77 -waveform {0 13.885} [get_pins {clock_div/clk_out4}]; # 36 MHz
-
-# create_clock -add -name clock -period 32.55 -waveform {0 16.275} [get_pins {clock_div/clk_out4}]; # 30.72 MHz
-
-# create_clock -add -name clock -period 27.13 -waveform {0 13.565} [get_pins {clock_div/clk_out4}]; # 36.864 MHz
-
-
-# create_clock -add -name clock -period 30.30 -waveform {0 15.15} [get_pins {clock_div/clk_out4}]; # 33 MHz
-
-# create_clock -add -name clock -period 27.027 -waveform {0 13.5135} [get_pins {clock_div/clk_out4}]; # 33 MHz
-
-
-# create_clock -add -name clock -period 10.00 -waveform {0 5} [get_ports { clk_osc }];
-# create_clock -add -name clock -period 83.33 -waveform {0 41.66} [get_ports { clk_osc }];
-
-# USB clock 
-#create_clock -add -name usb_clk -period 20.8333 -waveform {0 10.4165} [get_pins {clock_div/clk_out3}];
-#create_clock -add -name usb_clk -period 20.8333 -waveform {0 10.4165} [get_pins {clock_div/clk_out2}];
-
-
-# JTAG clock 
-# create_clock -add -name jtag_clk -period 200 -waveform {0 100} [get_ports {tck}];
-
-set_clock_uncertainty 0.1 [all_clocks]
-
-set_property max_fanout 50 [get_nets *]
-
-#######
-
-# create_clock -add -name clock -period 83.33 -waveform {0 41.66} [get_ports {clock}];
-
 # Outputs
 set_output_delay 5.0000 -clock [get_clocks {clock}] -add_delay [get_ports {flash_clk}];
 set_output_delay 5.0000 -clock [get_clocks {clock}] -add_delay [get_ports {flash_csb}];
@@ -76,14 +26,6 @@ set_input_delay 5.0000 -clock [get_clocks {clock}] -add_delay [get_ports {gpio}]
 set_output_delay 5.0000 -clock [get_clocks {clock}] -add_delay [get_ports {mprj_io[*]}];
 set_input_delay 5.0000 -clock [get_clocks {clock}] -add_delay [get_ports {mprj_io[*]}];
 
-#####
- 
-#set_clock_groups \
-#-name clock_group \
-#-logically_exclusive \
-#-group [get_clocks {clock}]\
-#-group [get_clocks {usb_clk}]
-#-group [get_clocks {jtag_clk}]\
 
 ## Switches
 #set_property -dict { PACKAGE_PIN A8    IOSTANDARD LVCMOS33 } [get_ports { sw[0] }]; #IO_L12N_T1_MRCC_16 Sch=sw[0]
@@ -117,15 +59,15 @@ set_property -dict { PACKAGE_PIN D9    IOSTANDARD LVCMOS33 } [get_ports { FPGA_r
 #set_property -dict { PACKAGE_PIN B9    IOSTANDARD LVCMOS33 } [get_ports { btn[2] }]; #IO_L11N_T1_SRCC_16 Sch=btn[2]
 #set_property -dict { PACKAGE_PIN B8    IOSTANDARD LVCMOS33 } [get_ports { btn[3] }]; #IO_L12P_T1_MRCC_16 Sch=btn[3]
 
-## Pmod Header JA
-# set_property -dict { PACKAGE_PIN G13   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[19] }]; #IO_0_15 Sch=ja[1]
-# set_property -dict { PACKAGE_PIN B11   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[21] }]; #IO_L4P_T0_15 Sch=ja[2]
-# set_property -dict { PACKAGE_PIN A11   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[22] }]; #IO_L4N_T0_15 Sch=ja[3]
-# set_property -dict { PACKAGE_PIN D12   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[23] }]; #IO_L6P_T0_15 Sch=ja[4]
-# set_property -dict { PACKAGE_PIN D13   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[25] }]; #IO_L6N_T0_VREF_15 Sch=ja[7]
-# set_property -dict { PACKAGE_PIN B18   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[26] }]; #IO_L10P_T1_AD11P_15 Sch=ja[8]
-# set_property -dict { PACKAGE_PIN A18   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[27] }]; #IO_L10N_T1_AD11N_15 Sch=ja[9]
-# set_property -dict { PACKAGE_PIN K16   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[28] }]; #IO_25_15 Sch=ja[10]
+# Pmod Header JA
+set_property -dict { PACKAGE_PIN G13   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[28] }]; #IO_0_15 Sch=ja[1]
+set_property -dict { PACKAGE_PIN B11   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[29] }]; #IO_L4P_T0_15 Sch=ja[2]
+set_property -dict { PACKAGE_PIN A11   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[30] }]; #IO_L4N_T0_15 Sch=ja[3]
+set_property -dict { PACKAGE_PIN D12   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[31] }]; #IO_L6P_T0_15 Sch=ja[4]
+set_property -dict { PACKAGE_PIN D13   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[32] }]; #IO_L6N_T0_VREF_15 Sch=ja[7]
+set_property -dict { PACKAGE_PIN B18   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[33] }]; #IO_L10P_T1_AD11P_15 Sch=ja[8]
+set_property -dict { PACKAGE_PIN A18   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[34] }]; #IO_L10N_T1_AD11N_15 Sch=ja[9]
+set_property -dict { PACKAGE_PIN K16   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[35] }]; #IO_25_15 Sch=ja[10]
 
 ## Pmod Header JB
 # set_property -dict { PACKAGE_PIN E15   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[29] }]; #IO_L11P_T1_SRCC_15 Sch=jb_p[1]
@@ -150,8 +92,8 @@ set_property -dict { PACKAGE_PIN D9    IOSTANDARD LVCMOS33 } [get_ports { FPGA_r
 ## Pmod Header JD
 #set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets {tck_IBUF}]
 
-# set_property -dict { PACKAGE_PIN D4    IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[47] }]; #IO_L11N_T1_SRCC_35 Sch=jd[1]
-# set_property -dict { PACKAGE_PIN D3    IOSTANDARD LVCMOS33 } [get_ports { hk_spi_csb }]; #IO_L12N_T1_MRCC_35 Sch=jd[2]
+set_property -dict { PACKAGE_PIN D4    IOSTANDARD LVCMOS33 } [get_ports { mprj_io[36] }]; #IO_L11N_T1_SRCC_35 Sch=jd[1]
+set_property -dict { PACKAGE_PIN D3    IOSTANDARD LVCMOS33 } [get_ports { mprj_io[37] }]; #IO_L12N_T1_MRCC_35 Sch=jd[2]
 # set_property -dict { PACKAGE_PIN F4    IOSTANDARD LVCMOS33 } [get_ports { hk_spi_sck }]; #IO_L13P_T2_MRCC_35 Sch=jd[3]
 # set_property -dict { PACKAGE_PIN F3    IOSTANDARD LVCMOS33 } [get_ports { hk_spi_sdi }]; #IO_L13N_T2_MRCC_35 Sch=jd[4]
 # set_property -dict { PACKAGE_PIN E2    IOSTANDARD LVCMOS33 } [get_ports { hk_spi_sdo }]; #IO_L14P_T2_SRCC_35 Sch=jd[7]
@@ -160,42 +102,42 @@ set_property -dict { PACKAGE_PIN D9    IOSTANDARD LVCMOS33 } [get_ports { FPGA_r
 # set_property -dict { PACKAGE_PIN G2    IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[47] }]; #IO_L15N_T2_DQS_35 Sch=jd[10]
 
 ## USB-UART Interface
-set_property -dict { PACKAGE_PIN D10   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[0] }]; #IO_L19N_T3_VREF_16 Sch=uart_rxd_out
-set_property -dict { PACKAGE_PIN A9    IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[1] }]; #IO_L14N_T2_SRCC_16 Sch=uart_txd_in
+set_property -dict { PACKAGE_PIN D10   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[6] }]; #IO_L19N_T3_VREF_16 Sch=uart_rxd_out
+set_property -dict { PACKAGE_PIN A9    IOSTANDARD LVCMOS33 } [get_ports { mprj_io[5] }]; #IO_L14N_T2_SRCC_16 Sch=uart_txd_in
 
 ## ChipKit Outer Digital Header
-#set_property -dict { PACKAGE_PIN V15   IOSTANDARD LVCMOS33 } [get_ports { usb_n  }]; #IO_L16P_T2_CSI_B_14          Sch=ck_io[0]
-#set_property -dict { PACKAGE_PIN U16   IOSTANDARD LVCMOS33 } [get_ports { usb_p  }]; #IO_L18P_T2_A12_D28_14        Sch=ck_io[1]
-#set_property -dict { PACKAGE_PIN P14   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[2]  }]; #IO_L8N_T1_D12_14             Sch=ck_io[2]
-#set_property -dict { PACKAGE_PIN T11   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[3]  }]; #IO_L19P_T3_A10_D26_14        Sch=ck_io[3]
-#set_property -dict { PACKAGE_PIN R12   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[4]  }]; #IO_L5P_T0_D06_14             Sch=ck_io[4]
-#set_property -dict { PACKAGE_PIN T14   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[16]  }]; #IO_L14P_T2_SRCC_14           Sch=ck_io[5]
-#set_property -dict { PACKAGE_PIN T15   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[10]  }]; #IO_L14N_T2_SRCC_14           Sch=ck_io[6]
-#set_property -dict { PACKAGE_PIN T16   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[11]  }]; #IO_L15N_T2_DQS_DOUT_CSO_B_14 Sch=ck_io[7]
-#set_property -dict { PACKAGE_PIN N15   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[20]  }]; #IO_L11P_T1_SRCC_14           Sch=ck_io[8]  UART1 (c4)
-#set_property -dict { PACKAGE_PIN M16   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[17]  }]; #IO_L10P_T1_D14_14            Sch=ck_io[9]
-#set_property -dict { PACKAGE_PIN V17   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[18]  }]; #IO_L18N_T2_A11_D27_14        Sch=ck_io[10]
-# set_property -dict { PACKAGE_PIN U18   IOSTANDARD LVCMOS33 } [get_ports { tdi }]; #IO_L17N_T2_A13_D29_14        Sch=ck_io[11]
-# set_property -dict { PACKAGE_PIN R17   IOSTANDARD LVCMOS33 } [get_ports { tdo }]; #IO_L12N_T1_MRCC_14           Sch=ck_io[12]
-# set_property -dict { PACKAGE_PIN P17   IOSTANDARD LVCMOS33 } [get_ports { trst_n }]; #IO_L12P_T1_MRCC_14           Sch=ck_io[13]
+set_property -dict { PACKAGE_PIN V15   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[0]  }]; #IO_L16P_T2_CSI_B_14          Sch=ck_io[0]
+set_property -dict { PACKAGE_PIN U16   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[1]  }]; #IO_L18P_T2_A12_D28_14        Sch=ck_io[1]
+set_property -dict { PACKAGE_PIN P14   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[2]  }]; #IO_L8N_T1_D12_14             Sch=ck_io[2]
+set_property -dict { PACKAGE_PIN T11   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[3]  }]; #IO_L19P_T3_A10_D26_14        Sch=ck_io[3]
+set_property -dict { PACKAGE_PIN R12   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[7]  }]; #IO_L5P_T0_D06_14             Sch=ck_io[4]
+set_property -dict { PACKAGE_PIN T14   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[4]  }]; #IO_L14P_T2_SRCC_14           Sch=ck_io[5]
+set_property -dict { PACKAGE_PIN T15   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[8]  }]; #IO_L14N_T2_SRCC_14           Sch=ck_io[6]
+set_property -dict { PACKAGE_PIN T16   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[9]  }]; #IO_L15N_T2_DQS_DOUT_CSO_B_14 Sch=ck_io[7]
+set_property -dict { PACKAGE_PIN N15   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[10]  }]; #IO_L11P_T1_SRCC_14           Sch=ck_io[8]  UART1 (c4)
+set_property -dict { PACKAGE_PIN M16   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[11]  }]; #IO_L10P_T1_D14_14            Sch=ck_io[9]
+set_property -dict { PACKAGE_PIN V17   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[12]  }]; #IO_L18N_T2_A11_D27_14        Sch=ck_io[10]
+set_property -dict { PACKAGE_PIN U18   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[13] }]; #IO_L17N_T2_A13_D29_14        Sch=ck_io[11]
+set_property -dict { PACKAGE_PIN R17   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[14] }]; #IO_L12N_T1_MRCC_14           Sch=ck_io[12]
+set_property -dict { PACKAGE_PIN P17   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[15] }]; #IO_L12P_T1_MRCC_14           Sch=ck_io[13]
 
 ## ChipKit Inner Digital Header
-#set_property -dict { PACKAGE_PIN U11   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[7] }]; #IO_L19N_T3_A09_D25_VREF_14 	Sch=ck_io[26]     #I2S SDI
-#set_property -dict { PACKAGE_PIN V16   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[40] }]; #IO_L16N_T2_A15_D31_14 		Sch=ck_io[27]        #PF0 wake 
-#set_property -dict { PACKAGE_PIN M13   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[32] }]; #IO_L6N_T0_D08_VREF_14 		Sch=ck_io[28]        #PE0 thsel 
-#set_property -dict { PACKAGE_PIN R10   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[5] }]; #IO_25_14 		 			Sch=ck_io[29]           #I2S WS
-#set_property -dict { PACKAGE_PIN R11   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[6] }]; #IO_0_14  		 			Sch=ck_io[30]           #I2S SCK
-#set_property -dict { PACKAGE_PIN R13   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[24] }]; #IO_L5N_T0_D07_14 			Sch=ck_io[31]        #PD0 l/r
-#set_property -dict { PACKAGE_PIN R15   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[8] }]; #IO_L13N_T2_MRCC_14 			Sch=ck_io[32]        #PB0
-#set_property -dict { PACKAGE_PIN P15   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[9] }]; #IO_L13P_T2_MRCC_14 			Sch=ck_io[33]        #PB1
+set_property -dict { PACKAGE_PIN U11   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[16] }]; #IO_L19N_T3_A09_D25_VREF_14 	Sch=ck_io[26]     #I2S SDI
+set_property -dict { PACKAGE_PIN V16   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[17] }]; #IO_L16N_T2_A15_D31_14 		Sch=ck_io[27]        #PF0 wake 
+set_property -dict { PACKAGE_PIN M13   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[18] }]; #IO_L6N_T0_D08_VREF_14 		Sch=ck_io[28]        #PE0 thsel 
+set_property -dict { PACKAGE_PIN R10   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[19] }]; #IO_25_14 		 			Sch=ck_io[29]           #I2S WS
+set_property -dict { PACKAGE_PIN R11   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[20] }]; #IO_0_14  		 			Sch=ck_io[30]           #I2S SCK
+set_property -dict { PACKAGE_PIN R13   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[21] }]; #IO_L5N_T0_D07_14 			Sch=ck_io[31]        #PD0 l/r
+set_property -dict { PACKAGE_PIN R15   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[22] }]; #IO_L13N_T2_MRCC_14 			Sch=ck_io[32]        #PB0
+set_property -dict { PACKAGE_PIN P15   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[23] }]; #IO_L13P_T2_MRCC_14 			Sch=ck_io[33]        #PB1
 set_property -dict { PACKAGE_PIN R16   IOSTANDARD LVCMOS33 } [get_ports { flash_csb }]; #IO_L15P_T2_DQS_RDWR_B_14 	Sch=ck_io[34]
 set_property -dict { PACKAGE_PIN N16   IOSTANDARD LVCMOS33 } [get_ports { flash_clk }]; #IO_L11N_T1_SRCC_14 			Sch=ck_io[35]
 set_property -dict { PACKAGE_PIN N14   IOSTANDARD LVCMOS33 } [get_ports { flash_io0 }]; #IO_L8P_T1_D11_14 			Sch=ck_io[36]
 set_property -dict { PACKAGE_PIN U17   IOSTANDARD LVCMOS33 } [get_ports { flash_io1 }]; #IO_L17P_T2_A14_D30_14 		Sch=ck_io[37]
-set_property -dict { PACKAGE_PIN T18   IOSTANDARD LVCMOS33 } [get_ports { flash_io2 }]; #IO_L7N_T1_D10_14 			Sch=ck_io[38]
-set_property -dict { PACKAGE_PIN R18   IOSTANDARD LVCMOS33 } [get_ports { flash_io3 }]; #IO_L7P_T1_D09_14 			Sch=ck_io[39] 
-# set_property -dict { PACKAGE_PIN P18   IOSTANDARD LVCMOS33 } [get_ports { tms }]; #IO_L9N_T1_DQS_D13_14 		Sch=ck_io[40]
-# set_property -dict { PACKAGE_PIN N17   IOSTANDARD LVCMOS33 } [get_ports { tck }]; #IO_L9P_T1_DQS_14 			Sch=ck_io[41]
+set_property -dict { PACKAGE_PIN T18   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[24] }]; #IO_L7N_T1_D10_14 			Sch=ck_io[38]
+set_property -dict { PACKAGE_PIN R18   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[25] }]; #IO_L7P_T1_D09_14 			Sch=ck_io[39] 
+set_property -dict { PACKAGE_PIN P18   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[26] }]; #IO_L9N_T1_DQS_D13_14 		Sch=ck_io[40]
+set_property -dict { PACKAGE_PIN N17   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[27] }]; #IO_L9P_T1_DQS_14 			Sch=ck_io[41]
 
 
 
@@ -298,195 +240,8 @@ set_property -dict { PACKAGE_PIN R18   IOSTANDARD LVCMOS33 } [get_ports { flash_
 #set_property -dict { PACKAGE_PIN A16   IOSTANDARD LVCMOS33     } [get_ports { isns0v95_n }]; #IO_L8N_T1_AD10N_15 Sch=ad_n[10]
 #set_property -dict { PACKAGE_PIN A15   IOSTANDARD LVCMOS33     } [get_ports { isns0v95_p }]; #IO_L8P_T1_AD10P_15 Sch=ad_p[10]
 
-#set_output_delay -max 6 -clock [get_clocks {clock}] [all_outputs]
-#set_output_delay -min 2 -clock [get_clocks {clock}] [all_outputs]
-
-#set_input_delay -max 6 -clock [get_clocks {clock}] [all_inputs]
-#set_input_delay -min 2 -clock [get_clocks {clock}] [all_inputs]
-
-# Outputs
-# set_output_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {tdo}];
-# set_output_delay 1.0000 -clock [get_clocks {jtag_clk}] -add_delay [get_ports {tdo}];
-
-#set_output_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {led}];
-# set_output_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {mirror_tck}];
-# set_output_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {mirror_tms}];
-# set_output_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {mirror_tdi}];
-# set_output_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {mirror_tdo}];
 
 
 
-# Inputs
-# set_input_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {RSTB}];
-# #set_input_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {tck}];
-# set_input_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {tms}];
-# set_input_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {tdi}];
-
-# set_input_delay 1.0000 -clock [get_clocks {jtag_clk}] -add_delay [get_ports {tms}];
-# set_input_delay 1.0000 -clock [get_clocks {jtag_clk}] -add_delay [get_ports {tdi}];
 
 
-# Inouts
-# set_output_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {usb_n}];
-# set_input_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {usb_n}];
-
-# set_output_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {usb_p}];
-# set_input_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {usb_p}];
-
-# set_output_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[0]}];
-# set_input_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[0]}];
-
-# set_output_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[1]}];
-# set_input_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[1]}];
-
-# set_output_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[2]}];
-# set_input_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[2]}];
-
-# set_output_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[3]}];
-# set_input_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[3]}];
-
-# set_output_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[4]}];
-# set_input_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[4]}];
-
-# set_output_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[5]}];
-# set_input_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[5]}];
-
-# set_output_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[6]}];
-# set_input_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[6]}];
-
-# set_output_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[7]}];
-# set_input_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[7]}];
-
-# set_output_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[8]}];
-# set_input_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[8]}];
-
-# set_output_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[9]}];
-# set_input_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[9]}];
-
-# set_output_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[10]}];
-# set_input_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[10]}];
-
-# set_output_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[11]}];
-# set_input_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[11]}];
-
-# set_output_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[12]}];
-# set_input_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[12]}];
-
-# set_output_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[13]}];
-# set_input_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[13]}];
-
-# set_output_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[14]}];
-# set_input_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[14]}];
-
-# set_output_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[15]}];
-# set_input_delay 4.0000 -clock [get_clocks {clock}] -add_delay [get_ports {pin_mux_io[15]}];
-
-
-# #set flash_min_tran 4
-# #set flash_max_tran 6
-# #set_input_transition -min $flash_min_tran [get_ports {miso}] 
-# #set_input_transition -max $flash_max_tran [get_ports {miso}] 
-
-
-
-# set flash_min_cap 6
-# set flash_max_cap 8
-# #set_load -min $flash_min_cap [get_ports {fcen fsclk mosi}] 
-# #set_load -max $flash_max_cap [get_ports {fcen fsclk mosi}] 
-
-# set_load -min $flash_min_cap [get_ports {fcen fsclk fdio}] 
-# set_load -max $flash_max_cap [get_ports {fcen fsclk fdio}] 
-
-
-
-# set flash_in_delay 0.5
-# set flash_out_delay 5
-# set_output_delay $flash_out_delay  -clock [get_clocks {clock}] -add_delay [get_ports {fcen}]
-# set_output_delay $flash_out_delay  -clock [get_clocks {clock}] -add_delay [get_ports {fsclk}]
-# #set_output_delay $flash_out_delay  -clock [get_clocks {clock}] -add_delay [get_ports {mosi}]
-# #set_input_delay $flash_in_delay -clock [get_clocks {clock}] -add_delay [get_ports {miso}]
-# set_output_delay $flash_out_delay  -clock [get_clocks {clock}] -add_delay [get_ports {fdio[0]}]
-# set_input_delay $flash_in_delay -clock [get_clocks {clock}] -add_delay [get_ports {fdio[0]}]
-
-# set_output_delay $flash_out_delay  -clock [get_clocks {clock}] -add_delay [get_ports {fdio[1]}]
-# set_input_delay $flash_in_delay -clock [get_clocks {clock}] -add_delay [get_ports {fdio[1]}]
-
-# set_output_delay $flash_out_delay  -clock [get_clocks {clock}] -add_delay [get_ports {fdio[2]}]
-# set_input_delay $flash_in_delay -clock [get_clocks {clock}] -add_delay [get_ports {fdio[2]}]
-
-# set_output_delay $flash_out_delay  -clock [get_clocks {clock}] -add_delay [get_ports {fdio[3]}]
-# set_input_delay $flash_in_delay -clock [get_clocks {clock}] -add_delay [get_ports {fdio[3]}]
-
-# Multi-cycle
-#set_multicycle_path -setup 2 -through [get_nets {soc/apb1_sys/analog_regs/PADDR_reg[*]*}] -through [get_nets {soc/apb1_sys/analog_regs/rdata*}]
-#set_multicycle_path -hold  1 -through [get_nets {soc/apb1_sys/analog_regs/PADDR_reg[*]*}] -through [get_nets {soc/apb1_sys/analog_regs/rdata*}]
-#set_multicycle_path -setup 2 -through [get_nets {soc/*/PADDR_reg[*]}] -through [get_nets {soc/*/*rdata*}]
-#set_multicycle_path -hold  1 -through [get_nets {soc/*/PADDR_reg[*]}] -through [get_nets {soc/*/*rdata*}]
-
-# Passant: HADDR to HRDATA 28Aug
-#set_multicycle_path -setup 2 -through [get_nets {soc/*HADDR*}] -through [get_nets {soc/*rdata*}]
-#set_multicycle_path -hold  1 -through [get_nets {soc/*HADDR*}] -through [get_nets {soc/*rdata*}]
-
-#set_multicycle_path -setup 2 -through [get_nets {soc/cpu/core/frontend/cir_*}] -through [get_nets {soc/*rdata*}]
-#set_multicycle_path -hold  1 -through [get_nets {soc/cpu/core/frontend/cir_*}] -through [get_nets {soc/*rdata*}]
-
-#set_multicycle_path -setup 2 -through [get_nets {soc/cpu/core/frontend/cir_*}] -through [get_pins {soc/flash_ctrl/cdata_reg[*]/D}]
-#set_multicycle_path -hold  1 -through [get_nets {soc/cpu/core/frontend/cir_*}] -through [get_pins {soc/flash_ctrl/cdata_reg[*]/D}]
-#set_multicycle_path -setup 2 -through [get_nets {soc/cpu/core/frontend/cir_*}] -through [get_pins {soc/flash_ctrl/cdata_reg[*]/CE}]
-
-#set_multicycle_path -setup 2 -through [get_pins {soc/cpu/core/*/Q*}] -through [get_nets {soc/flash_ctrl/CACHE/TAGS*/D}]
-#set_multicycle_path -hold  1 -through [get_pins {soc/cpu/core/*/Q*}] -through [get_nets {soc/flash_ctrl/CACHE/TAGS*/D}]
-
-#set_multicycle_path -setup 2 -through [get_pins {soc/cpu/core/*/Q*}] -through [get_nets {soc/flash_ctrl/CACHE/LINES_*/D}]
-#set_multicycle_path -hold  1 -through [get_pins {soc/cpu/core/*/Q*}] -through [get_nets {soc/flash_ctrl/CACHE/LINES_*/D}]
-
-#set_multicycle_path -setup 2 -through [get_pins {soc/cpu/core/*/Q*}] -through [get_pins {soc/flash_ctrl/CACHE/VALID_reg[*]/D}]
-#set_multicycle_path -hold  1 -through [get_pins {soc/cpu/core/*/Q*}] -through [get_pins {soc/flash_ctrl/CACHE/VALID_reg[*]/D}]
-
-#set_multicycle_path -setup 2 -through [get_pins {soc/cpu/core/*/Q*}] -through [get_pins {soc/flash_ctrl/*state*/D}]
-#set_multicycle_path -hold  1 -through [get_pins {soc/cpu/core/*/Q*}] -through [get_pins {soc/flash_ctrl/*state*/D}]
-
-#set_multicycle_path -setup 2 -through [get_pins {soc/cpu/core/*/Q*}] -through [get_pins {soc/flash_ctrl/HREADYOUT*/D}]
-#set_multicycle_path -hold  1 -through [get_pins {soc/cpu/core/*/Q*}] -through [get_pins {soc/flash_ctrl/HREADYOUT*/D}]
-
-#set_multicycle_path -setup 2 -through [get_pins {soc/DMAC_u/*/Q*}] -through [get_pins {soc/flash_ctrl/*/D}]
-#set_multicycle_path -hold  1 -through [get_pins {soc/DMAC_u/*/Q*}] -through [get_pins {soc/flash_ctrl/*/D}]
-
-#set_multicycle_path -setup 2 -through [get_pins {soc/cpu/core/csr_u/*/Q*}] -through [get_pins {soc/flash_ctrl/cdata*/D}]
-#set_multicycle_path -hold  1 -through [get_pins {soc/cpu/core/csr_u/*/Q*}] -through [get_pins {soc/flash_ctrl/cdata*/D}]
-
-# Passant 2Sep: review with Mostafa
-#set_false_path -through [get_pins {soc/cpu/core/mw_rd_*/Q*}] -through [get_pins {soc/flash_ctrl/cdata*/D}]
-#set_false_path -through [get_pins {soc/cpu/core/xm_rd_*/Q*}] -through [get_pins {soc/flash_ctrl/cdata*/D}]
-#set_false_path -through [get_pins {soc/cpu/core/d_rs*_predecoded_reg*/Q*}] -through [get_pins {soc/flash_ctrl/cdata*/D}]
-
-#set_false_path -from [get_ports {pin_mux_io[*]}] -through [get_pins {user_project/gpio*}]
-#set_false_path -from [get_ports {pin_mux_io[*]}] -through [get_nets {soc/*/*sync*}]
-#set_false_path -from [get_ports {sio_in[*]}] -through [get_pins {soc/*synchronizer*/D}]
-
-#set_false_path -through [get_pins {user_project/*}]   -through [get_pins {soc/flash_ctrl/*/D}]
-
-
-# FALSE PATHS
-
-#    #menna 5Aug2024
-#    set_false_path -through  soc/DMAC_*/Q  -through soc/flash_ctrl/*/D
-
-#    #menna 6Aug
-#    set_false_path -through   soc/cpu/core/* -through soc/flash_ctrl/CACHE_LINES_*
-#    set_false_path -through   soc/cpu/core/* -through soc/flash_ctrl/cdata*
-#    set_false_path -through   soc/cpu/core/* -through soc/flash_ctrl/CACHE_TAGS*
-#    set_false_path -through   user_project/* -through soc/flash_ctrl/CACHE_LINES*
-#    set_false_path -through   user_project/* -through soc/flash_ctrl/cdata* 
-#    set_false_path -through   user_project/* -through soc/flash_ctrl/CACHE_TAGS*
-
-#   # 12 Aug
-#   set_false_path -through [get_nets {soc/ahb0_sys/*}] -through [get_nets {soc/cpu/core/regs/*rdata*}]
-#   set_false_path -through [get_nets {soc/ahb1_sys/*}] -through [get_nets {soc/cpu/core/regs/*rdata*}]
-#   set_false_path -through [get_nets {soc/ahb_apb_bridge0/*}] -through [get_nets {soc/cpu/core/regs/*rdata*}]
-#   set_false_path -through [get_nets {soc/ahb_apb_bridge1/*}] -through [get_nets {soc/cpu/core/regs/*rdata*}]
-#   set_false_path -through [get_nets {soc/ahb_apb_bridge2/*}] -through [get_nets {soc/cpu/core/regs/*rdata*}]
-#   set_false_path -through [get_nets {soc/apb0_sys/*}] -through [get_nets {soc/cpu/core/regs/*rdata*}]
-#   set_false_path -through [get_nets {soc/apb1_sys/*}] -through [get_nets {soc/cpu/core/regs/*rdata*}]
-#   set_false_path -through [get_nets {soc/apb2_sys/*}] -through [get_nets {soc/cpu/core/regs/*rdata*}]
-#   set_false_path -through [get_nets {user_project/*}] -through [get_nets {soc/cpu/core/regs/*rdata*}]  

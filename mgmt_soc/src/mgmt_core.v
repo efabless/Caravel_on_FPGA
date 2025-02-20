@@ -4740,7 +4740,7 @@ assign gpioin5_gpioin5_irq = (gpioin5_pending_status & gpioin5_enable_storage);
 assign gpioin5_gpioin5_status = gpioin5_gpioin5_trigger;
 always @(*) begin
 	next_state = 1'd0;
-	next_state = state;
+//	next_state = state;
 	case (state)
 		1'd1: begin
 			next_state = 1'd0;

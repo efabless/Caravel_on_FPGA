@@ -35,7 +35,7 @@ module debug_gpio_tb;
 	reg power2;
 
 	//always #10 clock <= (clock === 1'b0);
-	always #41.666 clock <= (clock === 1'b0);	 //clock period 83.333ns, clock frequency 12MHz, bit time 7234 ns 
+	always #5 clock <= (clock === 1'b0);	 //clock period 83.333ns, clock frequency 12MHz, bit time 7234 ns 
 
 
 	initial begin
@@ -179,7 +179,7 @@ module debug_gpio_tb;
 		.vccd2	  (VDD1V8),
 		.vssd1	  (VSS),
 		.vssd2	  (VSS),*/
-		.clock	  (clock),
+		.clk_osc	  (clock),
 		.gpio     (gpio),
 		.mprj_io  (mprj_io),
 		.flash_csb(flash_csb),
