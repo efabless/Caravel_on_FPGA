@@ -1,4 +1,5 @@
-`default_nettype none
+`include "defines.v"
+`default_nettype wire
 
 module user_project_wrapper #(
     parameter BITS = 32

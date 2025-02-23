@@ -5,7 +5,7 @@ module user_project_tb;
 
     // Parameters
     parameter BITS = 32;
-    parameter CLK_PERIOD = 20;  // 50 MHz clock (20 ns period)
+    parameter CLK_PERIOD = 100;  // 
 
     // Signals for the DUT (Device Under Test)
     reg wb_clk_i;
@@ -70,6 +70,7 @@ module user_project_tb;
     task reset_dut;
         begin
             wb_rst_i = 1;
+            #999
             @(posedge wb_clk_i);
             wb_rst_i = 0;
         end
@@ -96,27 +97,35 @@ module user_project_tb;
         // - Address offset 0x08 -> Duty cycle register
 
         // PWM 0: 50% duty cycle, 1000 period
-        wb_write(32'h3000_0000 + 32'h04, 32'd1000);  // Set period
-        wb_write(32'h3000_0000 + 32'h08, 32'd500);   // Set duty cycle (50%)
-        wb_write(32'h3000_0000 + 32'h00, 32'd1);     // Enable PWM
+        wb_write(32'h3000_0000 + 32'h14, 4'b00_00);                       // Disable Timer
+        wb_write(32'h3000_0000 + 32'h04, 32'd10);                         // Reload
+        wb_write(32'h3000_0000 + 32'h08, 32'd1);                          // Set prescale
+        wb_write(32'h3000_0000 + 32'h18, 3'b1_11);                        // Set Cfg
+        wb_write(32'h3000_0000 + 32'h0c, 3'd5);                           // Cmpx
+        wb_write(32'h3000_0000 + 32'h10, 3'd5);                           // Cmpy
+        wb_write(32'h3000_0000 + 32'h1c, 12'b11_00_11_00_11_11);          // pwm0cfg
+        //wb_write(32'h3000_0000 + 32'h1c, 12'b01_00_10_00_01_10);          // pwm0cfg
+        wb_write(32'h3000_0000 + 32'h20, 12'b01_11_11_11_11_01);          // pwm1cfg
+        wb_write(32'h3000_0000 + 32'h14, 4'b11_01);                       // Ctrl - Enable PWM
 
         // PWM 1: 25% duty cycle, 2000 period
         wb_write(32'h3000_1000 + 32'h04, 32'd2000);
         wb_write(32'h3000_1000 + 32'h08, 32'd500);
-        wb_write(32'h3000_1000 + 32'h00, 32'd1);
+        wb_write(32'h3000_1000 + 32'h0e, 32'b11_01);
+        wb_write(32'h3000_1000 + 32'h0e, 32'b11_01);
 
         // PWM 2: 75% duty cycle, 500 period
         wb_write(32'h3000_2000 + 32'h04, 32'd500);
         wb_write(32'h3000_2000 + 32'h08, 32'd375);
-        wb_write(32'h3000_2000 + 32'h00, 32'd1);
+        wb_write(32'h3000_2000 + 32'h0e, 32'hc);
 
         // PWM 3: 10% duty cycle, 4000 period
         wb_write(32'h3000_3000 + 32'h04, 32'd4000);
         wb_write(32'h3000_3000 + 32'h08, 32'd400);
-        wb_write(32'h3000_3000 + 32'h00, 32'd1);
+        wb_write(32'h3000_3000 + 32'h0e, 32'hc);
 
         // Run simulation for some time
-        #100000;  // Let the PWM signals run for some time
+        #25_000;  // Let the PWM signals run for some time
 
         // Finish simulation
         $display("Simulation complete.");

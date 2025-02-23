@@ -1,0 +1,2 @@
+iverilog -o user_project_tb -I ../../src ../../src/defines.v ../../src/_user_project_wrapper_pwm.v ../../src/wb_bus_splitter.v ../../../ip/EF_TMR32/hdl/rtl/bus_wrappers/EF_TMR32_WB.v ../../../ip/EF_TMR32/hdl/rtl/EF_TMR32.v ../../../ip/EF_IP_UTIL/hdl/ef_util_lib.v user_project_pwm_tb.v
+vvp user_project_tb
