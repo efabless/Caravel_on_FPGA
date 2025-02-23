@@ -1,5 +1,5 @@
 # Caravel_on_FPGA
-In this repo you will be shown how to implement Cravel on FPGA and use its debug interface to debug a program running on Caravel's management SoC using GDB.
+In this repo you will be shown how to implement Caravel on FPGA and use its debug interface to debug a program running on Caravel's management SoC using GDB.
 ## Hardware Tools used:
 * Cmod Artix 7-35T
 * QSPI SST26VF080A Flash module
