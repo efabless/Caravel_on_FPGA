@@ -103,12 +103,12 @@ void delay(const int d)
 
    /* Configure timer for a single-shot countdown */
 	reg_timer0_config = 0;
-	reg_timer0_data = d;
-    reg_timer0_config = 1;
+	reg_timer0_data = d;     // load value to timer
+    reg_timer0_config = 1;   // enable timer
 
     // Loop, waiting for value to reach zero
    reg_timer0_update = 1;  // latch current value
-   while (reg_timer0_value > 0) {
+   while (reg_timer0_value > 0) {  // check latched value
            reg_timer0_update = 1;
    }
 
@@ -254,15 +254,14 @@ void delay(const int d)
 void config_pwm_ticks(int p0_ticks, int p1_ticks, int p2_ticks, int p3_ticks)
 {
 
-    const int reload = 240000;
+    const int reload = 240000;   // servo requires 50 Hz period
     const int prescale = 0;
     const int config = 0b110;
     const int disable = 0b0000;
     const int enable = 0b1101;
-    const int match  = 0b000000000110;   // cmpx_down | cmpy_down | reload | cmpy_up | cmpx_up | zero
+    const int match  = 0b000010000110;   // cmpx_down | cmpy_down | reload | cmpy_up | cmpx_up | zero
 
     // clock = 12MHz period = 83.33 nsec
-    // reload =  12000 = 1 ms
     // reload = 240000 = 20 ms = 50 Hz
     // cmpx =  6000 =  500 usec  -180 deg
     // cmpx = 12000 = 1000 usec   -90 deg
@@ -346,24 +345,22 @@ void main()
 
     print("Hello World !!\n");
 
-	const int _DELAY_VALUE = 8000000;
-//	const int _DELAY_VALUE = 800000;
+//	const int _DELAY_VALUE = 300000;
+	const int _DELAY_VALUE = 800000;
 
 	while (1) {
 
         reg_gpio_out = 1; // OFF
-//        config_pwm(0, 0, 0, 0);
         config_pwm_ticks(18000, 18000, 18000, 18000);
-        reg_mprj_datal = 0x00000000;
-        reg_mprj_datah = 0x00000000;
+//        reg_mprj_datal = 0x00000000;
+//        reg_mprj_datah = 0x00000000;
 
 		delay(_DELAY_VALUE);
 
         reg_gpio_out = 0;  // ON
         config_pwm_ticks(12000, 12000, 12000, 12000);
-//        config_pwm(180, 180, 180, 180);
-        reg_mprj_datah = 0x0000003f;
-        reg_mprj_datal = 0xffffffff;
+//        reg_mprj_datah = 0x0000003f;
+//        reg_mprj_datal = 0xffffffff;
 
 		delay(_DELAY_VALUE);
 
