@@ -70,7 +70,7 @@ set_property -dict { PACKAGE_PIN A18   IOSTANDARD LVCMOS33 } [get_ports { mprj_i
 set_property -dict { PACKAGE_PIN K16   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[35] }]; #IO_25_15 Sch=ja[10]
 
 ## Pmod Header JB
-# set_property -dict { PACKAGE_PIN E15   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[29] }]; #IO_L11P_T1_SRCC_15 Sch=jb_p[1]
+set_property -dict { PACKAGE_PIN E15   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[22] }]; #IO_L11P_T1_SRCC_15 Sch=jb_p[1]
 # set_property -dict { PACKAGE_PIN E16   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[30] }]; #IO_L11N_T1_SRCC_15 Sch=jb_n[1]
 # set_property -dict { PACKAGE_PIN D15   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[31] }]; #IO_L12P_T1_MRCC_15 Sch=jb_p[2]
 # set_property -dict { PACKAGE_PIN C15   IOSTANDARD LVCMOS33 } [get_ports { pin_mux_io[33] }]; #IO_L12N_T1_MRCC_15 Sch=jb_n[2]
@@ -128,7 +128,7 @@ set_property -dict { PACKAGE_PIN M13   IOSTANDARD LVCMOS33 } [get_ports { mprj_i
 set_property -dict { PACKAGE_PIN R10   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[19] }]; #IO_25_14 		 			Sch=ck_io[29]           #I2S WS
 set_property -dict { PACKAGE_PIN R11   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[20] }]; #IO_0_14  		 			Sch=ck_io[30]           #I2S SCK
 set_property -dict { PACKAGE_PIN R13   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[21] }]; #IO_L5N_T0_D07_14 			Sch=ck_io[31]        #PD0 l/r
-set_property -dict { PACKAGE_PIN R15   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[22] }]; #IO_L13N_T2_MRCC_14 			Sch=ck_io[32]        #PB0
+set_property -dict { PACKAGE_PIN R15   IOSTANDARD LVCMOS33 } [get_ports { gpio }]; #IO_L13N_T2_MRCC_14 			Sch=ck_io[32]        #PB0
 set_property -dict { PACKAGE_PIN P15   IOSTANDARD LVCMOS33 } [get_ports { mprj_io[23] }]; #IO_L13P_T2_MRCC_14 			Sch=ck_io[33]        #PB1
 set_property -dict { PACKAGE_PIN R16   IOSTANDARD LVCMOS33 } [get_ports { flash_csb }]; #IO_L15P_T2_DQS_RDWR_B_14 	Sch=ck_io[34]
 set_property -dict { PACKAGE_PIN N16   IOSTANDARD LVCMOS33 } [get_ports { flash_clk }]; #IO_L11N_T1_SRCC_14 			Sch=ck_io[35]

@@ -190,13 +190,13 @@ module user_project_wrapper #(
 
     // Assign PWM outputs to IO pins (First four GPIOs)
     assign io_out[0] = pwm0_0;
-    assign io_out[1] = pwm1_0;
-    assign io_out[2] = pwm0_1;
-    assign io_out[3] = pwm1_1;
-    assign io_out[4] = pwm0_2;
-    assign io_out[5] = pwm1_2;
-    assign io_out[6] = pwm0_3;
-    assign io_out[7] = pwm1_3;
+    assign io_out[1] = pwm0_1;
+    assign io_out[2] = pwm0_2;
+    assign io_out[3] = pwm0_3;
+    assign io_out[4] = wb_clk_i;
+    //assign io_out[5] = pwm1_2;
+    //assign io_out[6] = pwm0_3;
+    //assign io_out[7] = pwm1_3;
 
     // Configure GPIOs as outputs
     assign io_oeb[7:0] = 8'b0; // Enable outputs for first 8 pins
