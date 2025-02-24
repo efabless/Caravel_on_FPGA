@@ -66,7 +66,7 @@ module user_project_wrapper #(
     localparam [BITS-1:0] BASE_ADDR_2 = 32'h3002_0000;  // PWM 2
     localparam [BITS-1:0] BASE_ADDR_3 = 32'h3003_0000;  // PWM 3
 
-    localparam [BITS-1:0] ADDR_MASK = 32'hFFFF_F000;    // Mask for 4KB regions
+    localparam [BITS-1:0] ADDR_MASK = 32'hFFFF_0000;    // Mask for 4KB regions
 
     // Wishbone Bus Splitter Instance
     wishbone_bus_splitter bus_splitter_inst (

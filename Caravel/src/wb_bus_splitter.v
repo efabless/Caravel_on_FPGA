@@ -7,10 +7,10 @@ module wishbone_bus_splitter #(
 
     // Base Addresses and Address Masks for 4 peripherals
     parameter [ADDR_WIDTH-1:0] BASE_ADDR_0 = 32'h3000_0000,
-    parameter [ADDR_WIDTH-1:0] BASE_ADDR_1 = 32'h3000_1000,
-    parameter [ADDR_WIDTH-1:0] BASE_ADDR_2 = 32'h3000_2000,
-    parameter [ADDR_WIDTH-1:0] BASE_ADDR_3 = 32'h3000_3000,
-    parameter [ADDR_WIDTH-1:0] ADDR_MASK   = 32'hFFFF_F000
+    parameter [ADDR_WIDTH-1:0] BASE_ADDR_1 = 32'h3001_0000,
+    parameter [ADDR_WIDTH-1:0] BASE_ADDR_2 = 32'h3002_0000,
+    parameter [ADDR_WIDTH-1:0] BASE_ADDR_3 = 32'h3003_0000,
+    parameter [ADDR_WIDTH-1:0] ADDR_MASK   = 32'hFFFF_0000
 )(
     input  wire                      clk,
     input  wire                      rst,
