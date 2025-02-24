@@ -62,9 +62,9 @@ module user_project_wrapper #(
 
     // Define Base Addresses for EF_TMR32
     localparam [BITS-1:0] BASE_ADDR_0 = 32'h3000_0000;  // PWM 0
-    localparam [BITS-1:0] BASE_ADDR_1 = 32'h3000_1000;  // PWM 1
-    localparam [BITS-1:0] BASE_ADDR_2 = 32'h3000_2000;  // PWM 2
-    localparam [BITS-1:0] BASE_ADDR_3 = 32'h3000_3000;  // PWM 3
+    localparam [BITS-1:0] BASE_ADDR_1 = 32'h3001_0000;  // PWM 1
+    localparam [BITS-1:0] BASE_ADDR_2 = 32'h3002_0000;  // PWM 2
+    localparam [BITS-1:0] BASE_ADDR_3 = 32'h3003_0000;  // PWM 3
 
     localparam [BITS-1:0] ADDR_MASK = 32'hFFFF_F000;    // Mask for 4KB regions
 
@@ -193,7 +193,7 @@ module user_project_wrapper #(
     assign io_out[1] = pwm0_1;
     assign io_out[2] = pwm0_2;
     assign io_out[3] = pwm0_3;
-    assign io_out[4] = wb_clk_i;
+    // assign io_out[4] = wb_clk_i;
     //assign io_out[5] = pwm1_2;
     //assign io_out[6] = pwm0_3;
     //assign io_out[7] = pwm1_3;
