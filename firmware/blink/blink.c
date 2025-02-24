@@ -87,25 +87,25 @@ void configure_io()
 void delay(const int d)
 {
 
-    /* Configure timer for a single-shot countdown */
-	reg_timer0_config = 0;
-	reg_timer0_value = d;
-    reg_timer0_config = 3;
-
-    // Loop, waiting for value to reach zero
-   while (reg_timer0_data > 0) {
-   }
-
 //    /* Configure timer for a single-shot countdown */
 //	reg_timer0_config = 0;
-//	reg_timer0_data = d;
-//    reg_timer0_config = 1;
+//	reg_timer0_value = d;
+//    reg_timer0_config = 3;
 //
 //    // Loop, waiting for value to reach zero
-//   reg_timer0_update = 1;  // latch current value
-//   while (reg_timer0_value > 0) {
-//           reg_timer0_update = 1;
+//   while (reg_timer0_data > 0) {
 //   }
+
+    /* Configure timer for a single-shot countdown */
+	reg_timer0_config = 0;
+	reg_timer0_data = d;
+    reg_timer0_config = 1;
+
+    // Loop, waiting for value to reach zero
+   reg_timer0_update = 1;  // latch current value
+   while (reg_timer0_value > 0) {
+           reg_timer0_update = 1;
+   }
 
 }
 
@@ -142,21 +142,21 @@ void main()
 
     print("Hello World !!\n");
 
+    const int _DELAY_VALUE = 1200000;
+
 	while (1) {
 
         reg_gpio_out = 1; // OFF
-        reg_mprj_datal = 0x00000000;
-        reg_mprj_datah = 0x00000000;
+//        reg_mprj_datal = 0x00000000;
+//        reg_mprj_datah = 0x00000000;
 
-		delay(800000);
-//		delay(8000000);
+		delay(_DELAY_VALUE);
 
         reg_gpio_out = 0;  // ON
-        reg_mprj_datah = 0x0000003f;
-        reg_mprj_datal = 0xffffffff;
+//        reg_mprj_datah = 0x0000003f;
+//        reg_mprj_datal = 0xffffffff;
 
-		delay(800000);
-//		delay(8000000);
+		delay(_DELAY_VALUE);
 
     }
 
